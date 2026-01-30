@@ -1,8 +1,8 @@
 -- pg_cron拡張を有効化
 CREATE EXTENSION IF NOT EXISTS pg_cron;
 
--- http拡張を有効化（Edge Function呼び出しに必要）
-CREATE EXTENSION IF NOT EXISTS http;
+-- pg_net拡張を有効化（Edge Function呼び出しに必要）
+CREATE EXTENSION IF NOT EXISTS pg_net;
 
 -- update-prices Edge Functionを1時間ごとに実行するCronジョブを作成
 -- ジョブが既に存在する場合は削除してから作成
