@@ -4,7 +4,12 @@
       "Bash(grep:*)",
       "Bash(xargs:*)",
       "Bash(dir:*)",
-      "Bash(supabase status:*)"
+      "Bash(supabase status:*)",
+      "WebFetch(domain:docs.coingecko.com)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase"
+  ]
 }

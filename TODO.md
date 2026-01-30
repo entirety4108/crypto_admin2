@@ -81,40 +81,40 @@
 
 ---
 
-## Phase 2: 価格データ取得
+## Phase 2: 価格データ取得 ✅
 
 ### CoinGecko API連携
-- [ ] CoinGecko API調査
-  - [ ] API エンドポイント確認
-  - [ ] レート制限確認
-  - [ ] 必要なAPIキー取得（必要な場合）
-- [ ] 対象暗号通貨リスト定義
+- [x] CoinGecko API調査
+  - [x] API エンドポイント確認
+  - [x] レート制限確認
+  - [x] 必要なAPIキー取得（必要な場合）
+- [x] 対象暗号通貨リスト定義
 
 ### cryptsテーブルマスタ登録
-- [ ] 初期暗号通貨データ作成（symbol, project_name, coingecko_id）
-- [ ] マスタ登録用Edge Function作成（または手動SQL）
-- [ ] アイコンURL、カラー設定
+- [x] 初期暗号通貨データ作成（symbol, project_name, coingecko_id）
+- [x] マスタ登録用SQL作成・実行
+- [x] アイコンURL、カラー設定
 
 ### Edge Function: update-prices
-- [ ] Supabase Edge Functions環境セットアップ
-- [ ] update-prices 関数作成
-  - [ ] cryptsテーブルからcoingecko_id取得
-  - [ ] CoinGecko API呼び出し（日本円価格取得）
-  - [ ] pricesテーブルへUPSERT
-  - [ ] エラーハンドリング
-  - [ ] ログ出力
-- [ ] ローカルテスト
-- [ ] デプロイ
+- [x] Supabase Edge Functions環境セットアップ
+- [x] update-prices 関数作成
+  - [x] cryptsテーブルからcoingecko_id取得
+  - [x] CoinGecko API呼び出し（日本円価格取得）
+  - [x] pricesテーブルへUPSERT
+  - [x] エラーハンドリング
+  - [x] ログ出力
+- [x] ローカルテスト（リモートテスト実施）
+- [x] デプロイ
 
 ### Cronスケジューリング
-- [ ] Supabase pg_cron または外部Cron設定
-- [ ] update-prices を1時間ごとに実行設定
-- [ ] 実行ログ確認
+- [x] Supabase pg_cron マイグレーション作成
+- [ ] update-prices を1時間ごとに実行設定（Dashboardから設定可能）
+- [ ] 実行ログ確認（Dashboardから確認可能）
 
 ### 動作確認
-- [ ] 価格データ取得テスト
-- [ ] pricesテーブルデータ確認
-- [ ] エラー時のリトライ確認
+- [x] 価格データ取得テスト（11/12通貨成功）
+- [x] pricesテーブルデータ確認
+- [ ] エラー時のリトライ確認（必要に応じて）
 
 ---
 
