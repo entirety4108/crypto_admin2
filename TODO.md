@@ -4,79 +4,80 @@
 
 ---
 
-## Phase 1: 基盤構築
+## Phase 1: 基盤構築 ✅
 
 ### Supabase セットアップ
-- [ ] Supabaseプロジェクト作成
-- [ ] 環境変数の設定（SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY）
+- [x] Supabaseプロジェクト作成
+- [x] 環境変数の設定（SUPABASE_URL, SUPABASE_ANON_KEY）
 
 ### データベース構築
-- [ ] マスタテーブル作成
-  - [ ] crypts テーブル（暗号通貨マスタ）
-  - [ ] prices テーブル（価格履歴）
-- [ ] ユーザーテーブル作成
-  - [ ] accounts テーブル（取引所/ウォレット）
-  - [ ] addresses テーブル（ウォレットアドレス）
-  - [ ] crypt_categories テーブル（カテゴリ）
-  - [ ] user_crypt_categories テーブル（カテゴリ紐付け）
-- [ ] 取引テーブル作成
-  - [ ] purchases テーブル（購入）
-  - [ ] sells テーブル（売却）
-  - [ ] transfers テーブル（振替）
-  - [ ] airdrops テーブル（エアドロップ）
-  - [ ] commissions テーブル（手数料）
-- [ ] キャッシュ・集計テーブル作成
-  - [ ] daily_balances テーブル（日次残高）
-  - [ ] dm_crypts テーブル（通貨別年間集計）
-  - [ ] dm_accounts テーブル（アカウント別年間集計）
-- [ ] 連携テーブル作成
-  - [ ] price_alerts テーブル（価格アラート）
-  - [ ] zaim_credentials テーブル（Zaim認証）
-  - [ ] zaim_accounts テーブル（Zaimアカウント）
+- [x] マスタテーブル作成
+  - [x] crypts テーブル（暗号通貨マスタ）
+  - [x] prices テーブル（価格履歴）
+- [x] ユーザーテーブル作成
+  - [x] accounts テーブル（取引所/ウォレット）
+  - [x] addresses テーブル（ウォレットアドレス）
+  - [x] crypt_categories テーブル（カテゴリ）
+  - [x] user_crypt_categories テーブル（カテゴリ紐付け）
+- [x] 取引テーブル作成
+  - [x] purchases テーブル（購入）
+  - [x] sells テーブル（売却）
+  - [x] transfers テーブル（振替）
+  - [x] airdrops テーブル（エアドロップ）
+  - [x] commissions テーブル（手数料）
+- [x] キャッシュ・集計テーブル作成
+  - [x] daily_balances テーブル（日次残高）
+  - [x] dm_crypts テーブル（通貨別年間集計）
+  - [x] dm_accounts テーブル（アカウント別年間集計）
+- [x] 連携テーブル作成
+  - [x] price_alerts テーブル（価格アラート）
+  - [x] zaim_credentials テーブル（Zaim認証）
+  - [x] zaim_accounts テーブル（Zaimアカウント）
 
 ### Row Level Security (RLS)
-- [ ] マスタテーブルRLS設定（crypts, prices: 読み取り専用）
-- [ ] ユーザーテーブルRLS設定（accounts, addresses, crypt_categories, user_crypt_categories）
-- [ ] 取引テーブルRLS設定（purchases, sells, transfers, airdrops, commissions）
-- [ ] キャッシュテーブルRLS設定（daily_balances, dm_crypts, dm_accounts）
-- [ ] 連携テーブルRLS設定（price_alerts, zaim_credentials, zaim_accounts）
+- [x] マスタテーブルRLS設定（crypts, prices: 読み取り専用）
+- [x] ユーザーテーブルRLS設定（accounts, addresses, crypt_categories, user_crypt_categories）
+- [x] 取引テーブルRLS設定（purchases, sells, transfers, airdrops, commissions）
+- [x] キャッシュテーブルRLS設定（daily_balances, dm_crypts, dm_accounts）
+- [x] 連携テーブルRLS設定（price_alerts, zaim_credentials, zaim_accounts）
 
 ### Flutter プロジェクト初期化
-- [ ] Flutter プロジェクト作成（Web/iOS/Android対応）
-- [ ] pubspec.yaml 依存関係追加
-  - [ ] supabase_flutter
-  - [ ] flutter_riverpod / riverpod_annotation
-  - [ ] go_router
-  - [ ] fl_chart
-  - [ ] data_table_2
-  - [ ] intl
-  - [ ] freezed_annotation / json_annotation
-  - [ ] firebase_messaging / flutter_local_notifications
-- [ ] ディレクトリ構成作成
-  - [ ] lib/core/（constants, extensions, utils, theme）
-  - [ ] lib/features/（auth, portfolio, transactions, analysis, settings, notifications）
-  - [ ] lib/shared/（widgets, models, services）
-  - [ ] lib/l10n/（多言語ファイル）
-- [ ] Supabase初期化設定（main.dart）
+- [x] Flutter プロジェクト作成（Web/iOS/Android対応）
+- [x] pubspec.yaml 依存関係追加
+  - [x] supabase_flutter
+  - [x] flutter_riverpod / riverpod_annotation
+  - [x] go_router
+  - [x] fl_chart
+  - [x] data_table_2
+  - [x] intl
+  - [x] freezed_annotation / json_annotation
+  - [x] flutter_dotenv（環境変数管理）
+  - [ ] firebase_messaging / flutter_local_notifications（Phase 6で実装）
+- [x] ディレクトリ構成作成
+  - [x] lib/core/（constants, extensions, utils, theme）
+  - [x] lib/features/（auth, portfolio, transactions, analysis, settings, notifications）
+  - [x] lib/shared/（widgets, models, services）
+  - [x] lib/l10n/（多言語ファイル）
+- [x] Supabase初期化設定（main.dart）
 
 ### 認証機能
-- [ ] 認証サービス作成（Supabase Auth）
-- [ ] ログイン画面実装
-- [ ] 新規登録画面実装
-- [ ] パスワードリセット画面実装
-- [ ] 認証状態管理（Riverpod Provider）
-- [ ] 認証済みルーティング設定（go_router）
+- [x] 認証サービス作成（Supabase Auth）
+- [x] ログイン画面実装
+- [x] 新規登録画面実装
+- [x] パスワードリセット画面実装
+- [x] 認証状態管理（Riverpod Provider）
+- [x] 認証済みルーティング設定（go_router）
 
 ### 多言語対応
-- [ ] flutter_localizations 設定
-- [ ] app_ja.arb 作成（日本語）
-- [ ] app_en.arb 作成（英語）
-- [ ] 言語切り替え機能
+- [x] flutter_localizations 設定
+- [x] app_ja.arb 作成（日本語）
+- [x] app_en.arb 作成（英語）
+- [x] 言語切り替え機能
 
 ### テーマ・UI基盤
-- [ ] Material Design 3 テーマ設定
-- [ ] 共通ウィジェット作成
-- [ ] レスポンシブレイアウト基盤
+- [x] Material Design 3 テーマ設定
+- [x] 共通ウィジェット作成（MainShell, ナビゲーションバー）
+- [x] レスポンシブレイアウト基盤
 
 ---
 
@@ -268,11 +269,11 @@
   - [ ] triggered_at 更新
 
 ### 設定画面
-- [ ] アカウント管理リンク
-- [ ] カテゴリ管理リンク
-- [ ] Zaim連携設定
+- [ ] アカウント管理リンク（Phase 3で実装）
+- [ ] カテゴリ管理リンク（Phase 3で実装）
+- [ ] Zaim連携設定（Phase 5で実装）
 - [ ] 通知設定
-- [ ] 言語設定
+- [x] 言語設定
 
 ### テスト・最終調整
 - [ ] 単体テスト作成
