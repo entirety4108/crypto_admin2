@@ -1,0 +1,306 @@
+# Crypto Admin - 実装TODOリスト
+
+生成日時: 2026-01-30
+
+---
+
+## Phase 1: 基盤構築
+
+### Supabase セットアップ
+- [ ] Supabaseプロジェクト作成
+- [ ] 環境変数の設定（SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY）
+
+### データベース構築
+- [ ] マスタテーブル作成
+  - [ ] crypts テーブル（暗号通貨マスタ）
+  - [ ] prices テーブル（価格履歴）
+- [ ] ユーザーテーブル作成
+  - [ ] accounts テーブル（取引所/ウォレット）
+  - [ ] addresses テーブル（ウォレットアドレス）
+  - [ ] crypt_categories テーブル（カテゴリ）
+  - [ ] user_crypt_categories テーブル（カテゴリ紐付け）
+- [ ] 取引テーブル作成
+  - [ ] purchases テーブル（購入）
+  - [ ] sells テーブル（売却）
+  - [ ] transfers テーブル（振替）
+  - [ ] airdrops テーブル（エアドロップ）
+  - [ ] commissions テーブル（手数料）
+- [ ] キャッシュ・集計テーブル作成
+  - [ ] daily_balances テーブル（日次残高）
+  - [ ] dm_crypts テーブル（通貨別年間集計）
+  - [ ] dm_accounts テーブル（アカウント別年間集計）
+- [ ] 連携テーブル作成
+  - [ ] price_alerts テーブル（価格アラート）
+  - [ ] zaim_credentials テーブル（Zaim認証）
+  - [ ] zaim_accounts テーブル（Zaimアカウント）
+
+### Row Level Security (RLS)
+- [ ] マスタテーブルRLS設定（crypts, prices: 読み取り専用）
+- [ ] ユーザーテーブルRLS設定（accounts, addresses, crypt_categories, user_crypt_categories）
+- [ ] 取引テーブルRLS設定（purchases, sells, transfers, airdrops, commissions）
+- [ ] キャッシュテーブルRLS設定（daily_balances, dm_crypts, dm_accounts）
+- [ ] 連携テーブルRLS設定（price_alerts, zaim_credentials, zaim_accounts）
+
+### Flutter プロジェクト初期化
+- [ ] Flutter プロジェクト作成（Web/iOS/Android対応）
+- [ ] pubspec.yaml 依存関係追加
+  - [ ] supabase_flutter
+  - [ ] flutter_riverpod / riverpod_annotation
+  - [ ] go_router
+  - [ ] fl_chart
+  - [ ] data_table_2
+  - [ ] intl
+  - [ ] freezed_annotation / json_annotation
+  - [ ] firebase_messaging / flutter_local_notifications
+- [ ] ディレクトリ構成作成
+  - [ ] lib/core/（constants, extensions, utils, theme）
+  - [ ] lib/features/（auth, portfolio, transactions, analysis, settings, notifications）
+  - [ ] lib/shared/（widgets, models, services）
+  - [ ] lib/l10n/（多言語ファイル）
+- [ ] Supabase初期化設定（main.dart）
+
+### 認証機能
+- [ ] 認証サービス作成（Supabase Auth）
+- [ ] ログイン画面実装
+- [ ] 新規登録画面実装
+- [ ] パスワードリセット画面実装
+- [ ] 認証状態管理（Riverpod Provider）
+- [ ] 認証済みルーティング設定（go_router）
+
+### 多言語対応
+- [ ] flutter_localizations 設定
+- [ ] app_ja.arb 作成（日本語）
+- [ ] app_en.arb 作成（英語）
+- [ ] 言語切り替え機能
+
+### テーマ・UI基盤
+- [ ] Material Design 3 テーマ設定
+- [ ] 共通ウィジェット作成
+- [ ] レスポンシブレイアウト基盤
+
+---
+
+## Phase 2: 価格データ取得
+
+### CoinGecko API連携
+- [ ] CoinGecko API調査
+  - [ ] API エンドポイント確認
+  - [ ] レート制限確認
+  - [ ] 必要なAPIキー取得（必要な場合）
+- [ ] 対象暗号通貨リスト定義
+
+### cryptsテーブルマスタ登録
+- [ ] 初期暗号通貨データ作成（symbol, project_name, coingecko_id）
+- [ ] マスタ登録用Edge Function作成（または手動SQL）
+- [ ] アイコンURL、カラー設定
+
+### Edge Function: update-prices
+- [ ] Supabase Edge Functions環境セットアップ
+- [ ] update-prices 関数作成
+  - [ ] cryptsテーブルからcoingecko_id取得
+  - [ ] CoinGecko API呼び出し（日本円価格取得）
+  - [ ] pricesテーブルへUPSERT
+  - [ ] エラーハンドリング
+  - [ ] ログ出力
+- [ ] ローカルテスト
+- [ ] デプロイ
+
+### Cronスケジューリング
+- [ ] Supabase pg_cron または外部Cron設定
+- [ ] update-prices を1時間ごとに実行設定
+- [ ] 実行ログ確認
+
+### 動作確認
+- [ ] 価格データ取得テスト
+- [ ] pricesテーブルデータ確認
+- [ ] エラー時のリトライ確認
+
+---
+
+## Phase 3: コア機能
+
+### アカウント管理
+- [ ] Account モデル作成（Freezed）
+- [ ] AccountRepository 作成
+- [ ] AccountProvider 作成（Riverpod）
+- [ ] アカウント一覧画面
+- [ ] アカウント追加画面
+- [ ] アカウント編集画面
+- [ ] アカウント削除機能
+- [ ] アカウントロック機能
+- [ ] ウォレットアドレス管理
+  - [ ] Address モデル
+  - [ ] アドレス追加・編集・削除
+
+### 取引管理 - 入金（Deposit）
+- [ ] Purchase モデル作成
+- [ ] PurchaseRepository 作成
+- [ ] 入金登録画面
+  - [ ] 実行日時入力
+  - [ ] アカウント選択
+  - [ ] 通貨選択
+  - [ ] 単価・数量・入金額入力
+  - [ ] 手数料入力
+- [ ] 入金一覧表示
+- [ ] 入金編集・削除
+
+### 取引管理 - 売却（Sell）
+- [ ] Sell モデル作成
+- [ ] SellRepository 作成
+- [ ] 売却登録画面
+- [ ] 加重平均法による損益自動計算
+- [ ] 売却一覧表示
+- [ ] 売却編集・削除
+
+### 取引管理 - スワップ（Swap）
+- [ ] スワップ登録画面
+- [ ] 売却側・購入側の両取引自動作成
+- [ ] 売却側損益自動計算
+- [ ] スワップ一覧表示
+
+### 取引管理 - 振替（Transfer）
+- [ ] Transfer モデル作成
+- [ ] TransferRepository 作成
+- [ ] 振替登録画面
+- [ ] 振替手数料記録
+- [ ] 振替一覧表示
+
+### 取引管理 - エアドロップ（Airdrop）
+- [ ] Airdrop モデル作成
+- [ ] AirdropRepository 作成
+- [ ] エアドロップ登録画面（タイプ選択: airdrop/staking）
+- [ ] 受取時時価記録
+- [ ] エアドロップ一覧表示
+
+### 取引管理 - 手数料（Commission）
+- [ ] Commission モデル作成
+- [ ] CommissionRepository 作成
+- [ ] 手数料の取引紐付け
+
+### ポートフォリオ表示
+- [ ] ポートフォリオ概要画面
+- [ ] アカウント別保有状況
+- [ ] 通貨別保有状況
+- [ ] 現在価格表示（pricesテーブル参照）
+- [ ] 評価額計算・表示
+
+### カテゴリ管理
+- [ ] CryptCategory モデル作成
+- [ ] カテゴリ一覧画面
+- [ ] カテゴリ追加・編集・削除
+- [ ] 暗号通貨へのカテゴリ紐付け
+
+---
+
+## Phase 4: 分析・レポート
+
+### 残高履歴
+- [ ] Edge Function: update-daily-balances 作成
+- [ ] 日次残高スナップショット保存
+- [ ] 残高推移チャート表示（fl_chart）
+
+### 損益計算
+- [ ] 加重平均法による平均取得単価計算
+- [ ] 確定損益計算（売却時実現損益）
+- [ ] 評価損益計算（含み損益）
+- [ ] 損益レポート画面
+
+### 税務報告
+- [ ] 年度別確定損益集計
+- [ ] 入金総額・売却総額・手数料総額表示
+- [ ] Edge Function: update-data-marts 作成
+- [ ] dm_crypts, dm_accounts 更新処理
+
+### テクニカル分析
+- [ ] Edge Function: calculate-indicators 作成
+  - [ ] MACD計算（MACDライン、シグナルライン、ヒストグラム）
+  - [ ] RSI計算
+  - [ ] ボリンジャーバンド計算（上限、中央、下限）
+- [ ] pricesテーブル更新
+
+### チャート表示
+- [ ] 価格チャート画面
+- [ ] ローソク足チャート実装
+- [ ] MACD表示
+- [ ] RSI表示
+- [ ] ボリンジャーバンド表示
+
+---
+
+## Phase 5: 外部連携
+
+### Zaim連携
+- [ ] Zaim API調査
+- [ ] OAuth1認証フロー実装
+- [ ] zaim_credentials 保存処理
+- [ ] Zaimアカウント取得・保存
+- [ ] Edge Function: sync-zaim 作成
+  - [ ] 暗号資産評価額合計算出
+  - [ ] Zaimアカウント残高更新
+  - [ ] 差分を収入/支出として記録
+- [ ] Zaim連携設定画面
+
+### その他Edge Functions
+- [ ] 全Edge Functionsのデプロイ確認
+- [ ] Cronスケジュール設定
+  - [ ] update-prices: 1時間ごと
+  - [ ] calculate-indicators: 1日1回
+  - [ ] update-daily-balances: 1日1回
+  - [ ] update-data-marts: 1日1回
+  - [ ] sync-zaim: 1日1回（または手動）
+
+---
+
+## Phase 6: 通知・最終調整
+
+### プッシュ通知
+- [ ] Firebase Cloud Messaging セットアップ
+- [ ] flutter_local_notifications 設定
+- [ ] デバイストークン登録処理
+- [ ] 通知受信処理
+
+### 価格アラート
+- [ ] price_alerts 管理画面
+- [ ] アラート設定（通貨、条件、価格）
+- [ ] Edge Function: check-price-alerts 作成
+  - [ ] 閾値チェック（5分ごと）
+  - [ ] プッシュ通知送信
+  - [ ] triggered_at 更新
+
+### 設定画面
+- [ ] アカウント管理リンク
+- [ ] カテゴリ管理リンク
+- [ ] Zaim連携設定
+- [ ] 通知設定
+- [ ] 言語設定
+
+### テスト・最終調整
+- [ ] 単体テスト作成
+- [ ] 統合テスト
+- [ ] Web版動作確認
+- [ ] iOS版ビルド・動作確認
+- [ ] Android版ビルド・動作確認
+- [ ] パフォーマンス最適化
+- [ ] バグ修正
+
+---
+
+## 補足
+
+### 技術スタック
+- **Frontend**: Flutter 3.x
+- **Backend**: Supabase (PostgreSQL, Auth, Edge Functions, Realtime)
+- **状態管理**: Riverpod
+- **ルーティング**: go_router
+- **チャート**: fl_chart
+- **通知**: Firebase Cloud Messaging
+
+### 除外機能
+- 投資目的（Objective）管理
+- NFT管理
+- リバランス自動実行
+- 取引所API連携（Bybit, Bitget, GMO Coin, Hyperliquid）
+- OpenSea連携
+- Slack通知
+- Notion連携
+- Solana/Anchor関連
