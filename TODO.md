@@ -191,17 +191,17 @@
 ## Phase 3: コア機能
 
 ### アカウント管理
-- [ ] Account モデル作成（Freezed）
-- [ ] AccountRepository 作成
-- [ ] AccountProvider 作成（Riverpod）
-- [ ] アカウント一覧画面
-- [ ] アカウント追加画面
-- [ ] アカウント編集画面
-- [ ] アカウント削除機能
-- [ ] アカウントロック機能
-- [ ] ウォレットアドレス管理
-  - [ ] Address モデル
-  - [ ] アドレス追加・編集・削除
+- [x] Account モデル作成（Freezed）
+- [x] AccountRepository 作成
+- [x] AccountProvider 作成（Riverpod）
+- [x] アカウント一覧画面
+- [x] アカウント追加画面
+- [x] アカウント編集画面
+- [x] アカウント削除機能
+- [x] アカウントロック機能
+- [x] ウォレットアドレス管理
+  - [x] Address モデル
+  - [x] アドレス追加・編集・削除
 
 ### 取引管理 - 入金（Deposit）
 - [ ] Purchase モデル作成

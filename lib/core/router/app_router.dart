@@ -8,6 +8,10 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/sign_up_screen.dart';
 import '../../features/auth/presentation/screens/reset_password_screen.dart';
 import '../../features/portfolio/presentation/screens/portfolio_screen.dart';
+import '../../features/portfolio/presentation/screens/accounts_list_screen.dart';
+import '../../features/portfolio/presentation/screens/account_form_screen.dart';
+import '../../features/portfolio/presentation/screens/account_detail_screen.dart';
+import '../../features/portfolio/domain/account.dart';
 import '../../features/transactions/presentation/screens/transactions_screen.dart';
 import '../../features/analysis/presentation/screens/analysis_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
@@ -67,6 +71,30 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: PortfolioScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'accounts',
+                builder: (context, state) => const AccountsListScreen(),
+              ),
+              GoRoute(
+                path: 'accounts/new',
+                builder: (context, state) => const AccountFormScreen(),
+              ),
+              GoRoute(
+                path: 'accounts/edit',
+                builder: (context, state) {
+                  final account = state.extra as Account;
+                  return AccountFormScreen(account: account);
+                },
+              ),
+              GoRoute(
+                path: 'accounts/detail',
+                builder: (context, state) {
+                  final account = state.extra as Account;
+                  return AccountDetailScreen(account: account);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/transactions',
