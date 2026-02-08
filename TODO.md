@@ -204,16 +204,22 @@
   - [x] アドレス追加・編集・削除
 
 ### 取引管理 - 入金（Deposit）
-- [ ] Purchase モデル作成
-- [ ] PurchaseRepository 作成
-- [ ] 入金登録画面
-  - [ ] 実行日時入力
-  - [ ] アカウント選択
-  - [ ] 通貨選択
-  - [ ] 単価・数量・入金額入力
-  - [ ] 手数料入力
-- [ ] 入金一覧表示
-- [ ] 入金編集・削除
+- [x] Purchase モデル作成
+- [x] PurchaseRepository 作成
+- [x] CryptRepository 作成
+- [x] PurchaseProvider 作成（Riverpod）
+- [x] 入金登録画面
+  - [x] 実行日時入力
+  - [x] アカウント選択
+  - [x] 通貨選択
+  - [x] 単価・数量・入金額入力（自動計算）
+  - [x] 手数料入力
+- [x] 入金一覧表示
+  - [x] フィルター機能（口座・暗号資産）
+  - [x] ソート機能（実行日・数量・入金額）
+  - [x] Pull to refresh
+- [x] 入金編集・削除
+- [x] ルーティング追加（/transactions/deposits）
 
 ### 取引管理 - 売却（Sell）
 - [ ] Sell モデル作成

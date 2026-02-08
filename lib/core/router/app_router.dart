@@ -13,6 +13,9 @@ import '../../features/portfolio/presentation/screens/account_form_screen.dart';
 import '../../features/portfolio/presentation/screens/account_detail_screen.dart';
 import '../../features/portfolio/domain/account.dart';
 import '../../features/transactions/presentation/screens/transactions_screen.dart';
+import '../../features/transactions/presentation/screens/deposits_list_screen.dart';
+import '../../features/transactions/presentation/screens/deposit_form_screen.dart';
+import '../../features/transactions/domain/purchase.dart';
 import '../../features/analysis/presentation/screens/analysis_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../../shared/widgets/main_shell.dart';
@@ -101,6 +104,23 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: TransactionsScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'deposits',
+                builder: (context, state) => const DepositsListScreen(),
+              ),
+              GoRoute(
+                path: 'deposits/new',
+                builder: (context, state) => const DepositFormScreen(),
+              ),
+              GoRoute(
+                path: 'deposits/edit',
+                builder: (context, state) {
+                  final purchase = state.extra as Purchase;
+                  return DepositFormScreen(purchase: purchase);
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/analysis',
