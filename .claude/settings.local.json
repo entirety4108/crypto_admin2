@@ -5,7 +5,14 @@
       "Bash(xargs:*)",
       "Bash(dir:*)",
       "Bash(supabase status:*)",
-      "WebFetch(domain:docs.coingecko.com)"
+      "WebFetch(domain:docs.coingecko.com)",
+      "Bash(flutter pub run build_runner build:*)",
+      "Bash(flutter pub run build_runner clean:*)",
+      "Bash(flutter clean:*)",
+      "Bash(flutter pub get:*)",
+      "Bash(dart run build_runner build:*)",
+      "Bash(flutter build:*)",
+      "Bash(flutter analyze:*)"
     ]
   },
   "enableAllProjectMcpServers": true,

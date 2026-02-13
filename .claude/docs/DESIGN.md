@@ -102,6 +102,10 @@ Crypto Admin is a comprehensive cryptocurrency portfolio management system desig
 | **Swaps as linked transactions** | Maintain transaction atomicity | Single swap table with JSON | 2026-02-08 |
 | **Job idempotency via job_runs** | Prevent duplicate execution, enable safe retries | Database locks only (no tracking) | 2026-02-08 |
 | **Logical deletion (deleted_at)** | Maintain audit trail, enable rollback | Hard delete (lose history) | 2026-02-08 |
+| **Transfer UI/Repo follow Purchase/Sell patterns** | Consistency in Flutter screens/providers and schema mapping (fee fields optional) | Custom bespoke flow | 2026-02-09 |
+| **User-defined categories via crypt_categories + user_crypt_categories** | Flexible tagging and grouping of crypts, many-to-many relationships | Store category on crypts table (one-to-many only), no categories | 2026-02-09 |
+| **Airdrop repository uses purchases.type='a' and maps airdrop_profit to purchase_yen/deposit_yen** | Align cost basis with taxable airdrop value; UI mirrors deposit patterns with type chips (1=エアドロップ, 2=ステーキング報酬) | Separate airdrop table or custom fields only | 2026-02-09 |
+| **Swap repository creates linked sells(type='w') + purchases(type='s') and stores pair in swaps** | Keeps swap atomic, supports list filtering/sorting via typed joined view model (`SwapWithDetails`) | Single-table raw swap records only in UI | 2026-02-13 |
 
 ---
 
@@ -156,6 +160,19 @@ Crypto Admin is a comprehensive cryptocurrency portfolio management system desig
 - Tracks Edge Function executions
 - Prevents duplicate runs via unique constraint
 - Columns: job_name, user_id, account_id, run_date, status
+
+### Category Tables
+
+**crypt_categories** (通貨カテゴリ)
+- User-defined categories for organizing crypts
+- Columns: user_id, name, color, icon_url, created_at, updated_at
+- Examples: "長期保有", "デイトレード", "DeFi", "NFT"
+
+**user_crypt_categories** (通貨カテゴリ割り当て)
+- Many-to-many mapping between users, categories, and crypts
+- Columns: user_id, category_id, crypt_id
+- Enables: One crypt can belong to multiple categories
+- Use case: Filter portfolio by category, group analysis by category
 
 ---
 
@@ -355,5 +372,9 @@ SELECT pg_advisory_unlock(hashtext(account_id::text));
 
 | Date | Changes |
 |------|---------|
+| 2026-02-13 | Added Swap feature: domain models, repository, provider, form/list screens with profit calculation and filtering |
+| 2026-02-09 | Added Airdrop feature: repository, provider, form/list screens with type filtering (エアドロップ/ステーキング報酬) |
+| 2026-02-09 | Added category management feature: domain models, repository, providers, and 3 screens (list/form/detail) |
+| 2026-02-09 | Added Transfer feature implementation (Flutter UI/repository) |
 | 2026-02-08 | Phase 2.5: Design review completed, schema improvements documented |
 | 2026-01-30 | Initial schema created (Phase 1) |

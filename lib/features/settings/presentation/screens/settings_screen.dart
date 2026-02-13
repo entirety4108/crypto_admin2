@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:crypto_admin/l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../providers/locale_provider.dart';
 
@@ -43,10 +44,10 @@ class SettingsScreen extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.category),
-            title: Text(l10n.categories),
-            subtitle: Text('Coming in Phase 3'),
+            title: const Text('カテゴリ管理'),
+            subtitle: const Text('カテゴリの作成・編集・割り当て'),
             trailing: const Icon(Icons.chevron_right),
-            enabled: false,
+            onTap: () => context.push('/settings/categories'),
           ),
           const Divider(),
 

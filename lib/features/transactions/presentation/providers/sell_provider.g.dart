@@ -6,7 +6,7 @@ part of 'sell_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sellRepositoryHash() => r'76d2d037e8b7e69cfd416efbac101f11315aa5a7';
+String _$sellRepositoryHash() => r'73b9c4937609bcad4e26cec901517b7b5e948531';
 
 /// See also [sellRepository].
 @ProviderFor(sellRepository)
@@ -23,7 +23,7 @@ final sellRepositoryProvider = AutoDisposeProvider<SellRepository>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SellRepositoryRef = AutoDisposeProviderRef<SellRepository>;
-String _$sellsNotifierHash() => r'f021686256a73104754114fc6746e2c9748b693d';
+String _$sellsNotifierHash() => r'3538981e96ab356539d923143e892ab862c40f0e';
 
 /// See also [SellsNotifier].
 @ProviderFor(SellsNotifier)

@@ -75,7 +75,7 @@ class PurchasesNotifier extends _$PurchasesNotifier {
     }
   }
 
-  Future<Purchase> update(
+  Future<Purchase> updatePurchase(
     String id, {
     DateTime? execAt,
     double? unitYen,
@@ -124,8 +124,7 @@ List<Purchase> _sortByExecAt(List<Purchase> purchases) {
   return next;
 }
 
-final AsyncNotifierProvider<PurchasesNotifier, List<Purchase>>
-    purchasesListProvider = purchasesNotifierProvider;
+final purchasesListProvider = purchasesNotifierProvider;
 
 @riverpod
 Future<List<Crypt>> cryptsList(CryptsListRef ref) async {

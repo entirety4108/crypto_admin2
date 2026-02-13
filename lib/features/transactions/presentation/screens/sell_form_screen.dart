@@ -228,7 +228,7 @@ class _SellFormScreenState extends ConsumerState<SellFormScreen> {
       final notifier = ref.read(sellsListProvider.notifier);
 
       if (_isEditMode) {
-        await notifier.update(
+        await notifier.updateSell(
           widget.sell!.id,
           execAt: _execAt,
           unitYen: unitYen,

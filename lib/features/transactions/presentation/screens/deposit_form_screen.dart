@@ -155,7 +155,7 @@ class _DepositFormScreenState extends ConsumerState<DepositFormScreen> {
       final notifier = ref.read(purchasesListProvider.notifier);
 
       if (_isEditMode) {
-        await notifier.update(
+        await notifier.updatePurchase(
           widget.purchase!.id,
           execAt: _execAt,
           unitYen: unitYen,

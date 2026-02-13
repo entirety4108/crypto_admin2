@@ -9,8 +9,7 @@ part 'sell_provider.g.dart';
 
 @riverpod
 SellRepository sellRepository(SellRepositoryRef ref) {
-  final supabase = Supabase.instance.client;
-  return SellRepository(supabase);
+  return SellRepository();
 }
 
 @riverpod
@@ -70,7 +69,7 @@ class SellsNotifier extends _$SellsNotifier {
     }
   }
 
-  Future<Sell> update(
+  Future<Sell> updateSell(
     String id, {
     DateTime? execAt,
     double? unitYen,
@@ -116,5 +115,4 @@ List<Sell> _sortByExecAt(List<Sell> sells) {
   return next;
 }
 
-final AsyncNotifierProvider<SellsNotifier, List<Sell>> sellsListProvider =
-    sellsNotifierProvider;
+final sellsListProvider = sellsNotifierProvider;

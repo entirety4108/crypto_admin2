@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:crypto_admin/l10n/app_localizations.dart';
 import '../../domain/auth_state.dart';
 import '../providers/auth_provider.dart';
 

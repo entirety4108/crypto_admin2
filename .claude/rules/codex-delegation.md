@@ -95,7 +95,7 @@ Task tool parameters:
     - {requirement 2}
 
     Call Codex CLI with workspace-write:
-    codex exec --model gpt-5.2-codex --sandbox workspace-write --full-auto "
+    codex exec --model gpt-5.3-codex --sandbox workspace-write --full-auto "
     Implement {feature} in {file_path}.
 
     Requirements:
@@ -182,7 +182,7 @@ Task tool parameters:
     {Task description}
 
     Call Codex CLI:
-    codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "
+    codex exec --model gpt-5.3-codex --sandbox read-only --full-auto "
     {Question for Codex}
     " 2>/dev/null
 
@@ -200,7 +200,7 @@ Only use direct Bash call when:
 
 ```bash
 # Only for simple queries
-codex exec --model gpt-5.2-codex --sandbox read-only --full-auto "Brief question" 2>/dev/null
+codex exec --model gpt-5.3-codex --sandbox read-only --full-auto "Brief question" 2>/dev/null
 ```
 
 ### Sandbox Modes

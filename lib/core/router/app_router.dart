@@ -17,10 +17,22 @@ import '../../features/transactions/presentation/screens/deposits_list_screen.da
 import '../../features/transactions/presentation/screens/deposit_form_screen.dart';
 import '../../features/transactions/presentation/screens/sells_list_screen.dart';
 import '../../features/transactions/presentation/screens/sell_form_screen.dart';
+import '../../features/transactions/presentation/screens/transfers_screen.dart';
+import '../../features/transactions/presentation/screens/transfer_form_screen.dart';
+import '../../features/transactions/presentation/screens/airdrops_screen.dart';
+import '../../features/transactions/presentation/screens/airdrop_form_screen.dart';
+import '../../features/transactions/presentation/screens/swaps_screen.dart';
+import '../../features/transactions/presentation/screens/swap_form_screen.dart';
 import '../../features/transactions/domain/purchase.dart';
 import '../../features/transactions/domain/sell.dart';
+import '../../features/transactions/domain/transfer.dart';
+import '../../features/transactions/domain/swap.dart';
 import '../../features/analysis/presentation/screens/analysis_screen.dart';
 import '../../features/settings/presentation/screens/settings_screen.dart';
+import '../../features/settings/presentation/screens/categories_screen.dart';
+import '../../features/settings/presentation/screens/category_form_screen.dart';
+import '../../features/settings/presentation/screens/category_detail_screen.dart';
+import '../../features/settings/domain/crypt_category.dart';
 import '../../shared/widgets/main_shell.dart';
 
 /// Navigation key for nested navigation
@@ -138,6 +150,51 @@ final routerProvider = Provider<GoRouter>((ref) {
                   return SellFormScreen(sell: sell);
                 },
               ),
+              GoRoute(
+                path: 'transfers',
+                builder: (context, state) => const TransfersScreen(),
+              ),
+              GoRoute(
+                path: 'transfers/new',
+                builder: (context, state) => const TransferFormScreen(),
+              ),
+              GoRoute(
+                path: 'transfers/edit',
+                builder: (context, state) {
+                  final transfer = state.extra as Transfer;
+                  return TransferFormScreen(transfer: transfer);
+                },
+              ),
+              GoRoute(
+                path: 'airdrops',
+                builder: (context, state) => const AirdropsScreen(),
+              ),
+              GoRoute(
+                path: 'airdrops/new',
+                builder: (context, state) => const AirdropFormScreen(),
+              ),
+              GoRoute(
+                path: 'airdrops/edit',
+                builder: (context, state) {
+                  final purchase = state.extra as Purchase;
+                  return AirdropFormScreen(purchase: purchase);
+                },
+              ),
+              GoRoute(
+                path: 'swaps',
+                builder: (context, state) => const SwapsScreen(),
+              ),
+              GoRoute(
+                path: 'swaps/new',
+                builder: (context, state) => const SwapFormScreen(),
+              ),
+              GoRoute(
+                path: 'swaps/edit',
+                builder: (context, state) {
+                  final swap = state.extra as SwapWithDetails;
+                  return SwapFormScreen(swap: swap);
+                },
+              ),
             ],
           ),
           GoRoute(
@@ -151,6 +208,33 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: SettingsScreen(),
             ),
+            routes: [
+              GoRoute(
+                path: 'categories',
+                builder: (context, state) => const CategoriesScreen(),
+              ),
+              GoRoute(
+                path: 'categories/new',
+                builder: (context, state) => const CategoryFormScreen(),
+              ),
+              GoRoute(
+                path: 'categories/:id/edit',
+                builder: (context, state) {
+                  final categoryId = state.pathParameters['id']!;
+                  return CategoryFormScreen(
+                    categoryId: categoryId,
+                    category: state.extra as CryptCategory?,
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'categories/:id',
+                builder: (context, state) {
+                  final categoryId = state.pathParameters['id']!;
+                  return CategoryDetailScreen(categoryId: categoryId);
+                },
+              ),
+            ],
           ),
         ],
       ),

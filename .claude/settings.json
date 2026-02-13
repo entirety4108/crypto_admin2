@@ -175,5 +175,9 @@
   },
   "env": {
     "EDITOR": "code --wait"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python \".claude/hooks/statusline.py\""
   }
 }

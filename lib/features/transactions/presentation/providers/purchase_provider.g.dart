@@ -59,7 +59,7 @@ final cryptsListProvider = AutoDisposeFutureProvider<List<Crypt>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CryptsListRef = AutoDisposeFutureProviderRef<List<Crypt>>;
-String _$purchasesNotifierHash() => r'4414976847a6836fa99200b6b2f3e82c2bd7613e';
+String _$purchasesNotifierHash() => r'a3d3e30294b3563df3155d167836e055a3ba9848';
 
 /// See also [PurchasesNotifier].
 @ProviderFor(PurchasesNotifier)

@@ -1,7 +1,7 @@
 # Design Review: Phase 2.5 - Cryptocurrency Portfolio Management System
 
 **Review Date**: 2026-02-08
-**Reviewed By**: Codex CLI (gpt-5.2-codex)
+**Reviewed By**: Codex CLI (gpt-5.3-codex)
 **Context**: PostgreSQL schema for crypto transaction ledger with weighted average cost accounting
 
 ---

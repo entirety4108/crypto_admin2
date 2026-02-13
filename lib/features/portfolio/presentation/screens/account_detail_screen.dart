@@ -196,7 +196,7 @@ class _AddressManagementSectionState
 
     try {
       final repository = ref.read(addressRepositoryProvider);
-      final addresses = await repository.getAddresses(widget.account.id);
+      final addresses = await repository.getAddressesByAccount(widget.account.id);
       if (mounted) {
         setState(() {
           _addresses = addresses;

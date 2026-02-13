@@ -63,7 +63,7 @@ class AccountsNotifier extends _$AccountsNotifier {
     }
   }
 
-  Future<void> update(
+  Future<void> updateAccount(
     String id, {
     String? name,
     String? icon,
@@ -100,7 +100,6 @@ class AccountsNotifier extends _$AccountsNotifier {
   }
 }
 
-final AsyncNotifierProvider<AccountsNotifier, List<Account>> accountsListProvider =
-    accountsNotifierProvider;
+final accountsListProvider = accountsNotifierProvider;
 
 final selectedAccountProvider = StateProvider<Account?>((ref) => null);

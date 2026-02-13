@@ -61,7 +61,7 @@ class _AccountFormScreenState extends ConsumerState<AccountFormScreen> {
       final notifier = ref.read(accountsListProvider.notifier);
 
       if (_isEditMode) {
-        await notifier.update(
+        await notifier.updateAccount(
           widget.account!.id,
           name: _nameController.text.trim(),
           icon: _iconUrlController.text.trim().isEmpty
