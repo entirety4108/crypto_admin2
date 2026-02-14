@@ -34,10 +34,7 @@ class AnalysisScreen extends StatelessWidget {
               title: const Text('残高履歴'),
               subtitle: const Text('日次残高の推移'),
               trailing: const Icon(Icons.chevron_right),
-              enabled: false,
-              onTap: () {
-                // TODO: Implement in Phase 4 Step 2
-              },
+              onTap: () => context.push('/analysis/balance-history'),
             ),
           ),
           const SizedBox(height: 8),

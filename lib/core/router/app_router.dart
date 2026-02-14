@@ -34,6 +34,7 @@ import '../../features/settings/presentation/screens/category_form_screen.dart';
 import '../../features/settings/presentation/screens/category_detail_screen.dart';
 import '../../features/settings/domain/crypt_category.dart';
 import '../../features/analysis/presentation/screens/profit_loss_screen.dart';
+import '../../features/analysis/presentation/screens/balance_history_screen.dart';
 import '../../shared/widgets/main_shell.dart';
 
 /// Navigation key for nested navigation
@@ -207,6 +208,10 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'profit-loss',
                 builder: (context, state) => const ProfitLossScreen(),
+              ),
+              GoRoute(
+                path: 'balance-history',
+                builder: (context, state) => const BalanceHistoryScreen(),
               ),
             ],
           ),
