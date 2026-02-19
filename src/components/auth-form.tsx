@@ -10,7 +10,6 @@ type Mode = 'login' | 'register' | 'reset'
 
 export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
   const router = useRouter()
-  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -26,6 +25,8 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
     setError(null)
 
     try {
+      const supabase = createClient()
+
       if (mode === 'login') {
         const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
 
