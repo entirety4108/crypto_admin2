@@ -36,15 +36,15 @@
 - [x] 画面/APIのバリデーション（Zod）
 
 ## Phase 4: 取引管理（CRUD）
-- [ ] 取引一覧ページ（種別フィルタ/期間フィルタ）
-- [ ] 入金（purchases type=d）登録
-- [ ] 売却（sells type=s）登録
-- [ ] スワップ（purchases+sells+swaps）登録
-- [ ] 振替（transfers）登録
-- [ ] エアドロップ（purchases type=a）登録
-- [ ] 各取引の編集
-- [ ] 各取引の削除
-- [ ] 手数料（commissions）紐付けUI
+- [x] 取引一覧ページ（種別フィルタ/期間フィルタ）
+- [x] 入金（purchases type=d）登録
+- [x] 売却（sells type=s）登録
+- [x] スワップ（purchases+sells+swaps）登録
+- [x] 振替（transfers）登録
+- [x] エアドロップ（purchases type=a）登録
+- [x] 各取引の編集
+- [x] 各取引の削除
+- [x] 手数料（commissions）紐付けUI
 
 ## Phase 5: 会計ロジック（WAC）
 - [ ] WAC計算ユースケース実装
