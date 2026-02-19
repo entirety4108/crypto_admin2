@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write .",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest"
@@ -32,6 +32,7 @@
     ]
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -40,6 +41,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.6",
     "jsdom": "^28.1.0",
     "postcss": "^8",
     "prettier": "^3.5.3",

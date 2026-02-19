@@ -6,16 +6,16 @@
 ---
 
 ## Phase 1: 基盤構築
-- [ ] Next.js 15 + TypeScript プロジェクト初期化
-- [ ] Tailwind CSS 導入
-- [ ] shadcn/ui 初期セットアップ（Button/Input/Table/Dialog）
-- [ ] Supabase client/server ヘルパー実装（`src/lib/supabase`）
-- [ ] next-intl 設定（ja/enメッセージ）
-- [ ] TanStack Query Provider 実装
-- [ ] Zustand ストア雛形作成
-- [ ] Vitest + React Testing Library 設定
-- [ ] ESLint/Prettier/TypeScript strict 設定
-- [ ] CI（lint/typecheck/test）追加
+- [x] Next.js 15 + TypeScript プロジェクト初期化
+- [x] Tailwind CSS 導入
+- [x] shadcn/ui 初期セットアップ（Button/Input/Table/Dialog）
+- [x] Supabase client/server ヘルパー実装（`src/lib/supabase`）
+- [x] next-intl 設定（ja/enメッセージ）
+- [x] TanStack Query Provider 実装
+- [x] Zustand ストア雛形作成
+- [x] Vitest + React Testing Library 設定
+- [x] ESLint/Prettier/TypeScript strict 設定
+- [x] CI（lint/typecheck/test）追加
 
 ## Phase 2: 認証・ルーティング
 - [ ] ログイン画面
