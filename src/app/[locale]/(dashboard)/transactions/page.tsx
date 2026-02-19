@@ -40,8 +40,6 @@ type Purchase = {
   purchase_yen: string
   type: 'd' | 's' | 'a'
   commission_id: string | null
-  airdrop_type: number | null
-  airdrop_profit: string | null
 }
 type Sell = {
   id: string
@@ -104,7 +102,7 @@ export default async function TransactionsPage({
 
   const purchasesQuery = supabase
     .from('purchases')
-    .select('id,exec_at,account_id,crypt_id,unit_yen,amount,deposit_yen,purchase_yen,type,commission_id,airdrop_type,airdrop_profit')
+    .select('id,exec_at,account_id,crypt_id,unit_yen,amount,deposit_yen,purchase_yen,type,commission_id')
     .order('exec_at', { ascending: false })
   const sellsQuery = supabase
     .from('sells')
@@ -246,12 +244,6 @@ export default async function TransactionsPage({
             <option value="">手数料なし</option>
             {commissions.map((c) => <option key={c.id} value={c.id}>{new Date(c.exec_at).toLocaleString('ja-JP')} / {cryptMap.get(c.crypt_id) ?? 'N/A'}</option>)}
           </select>
-          <select name="airdrop_type" className="w-full rounded border px-3 py-2" defaultValue="">
-            <option value="">エアドロップ種別（type=aの時のみ）</option>
-            <option value="1">airdrop</option>
-            <option value="2">staking</option>
-          </select>
-          <input name="airdrop_profit" type="number" step="0.01" min="0" placeholder="エアドロップ損益(type=aのみ)" className="w-full rounded border px-3 py-2" />
           <button className="rounded bg-slate-900 px-3 py-2 text-sm text-white" type="submit">追加</button>
         </form>
 
@@ -396,8 +388,6 @@ export default async function TransactionsPage({
               <option value="">手数料なし</option>
               {commissions.map((c) => <option key={c.id} value={c.id}>{new Date(c.exec_at).toLocaleString('ja-JP')} / {cryptMap.get(c.crypt_id) ?? 'N/A'}</option>)}
             </select>
-            <input name="airdrop_type" defaultValue={tx.airdrop_type ?? ''} type="number" min="1" max="2" placeholder="airdrop種別" className="rounded border px-3 py-2" />
-            <input name="airdrop_profit" defaultValue={tx.airdrop_profit ?? ''} type="number" step="0.01" min="0" placeholder="airdrop損益" className="rounded border px-3 py-2" />
             <p className="text-xs text-slate-600">{tx.type === 'a' ? 'エアドロップ' : tx.type === 's' ? 'スワップ買い' : '入金'} / {cryptMap.get(tx.crypt_id)}</p>
             <div className="flex gap-2">
               <button className="rounded border px-3 py-2 text-sm" type="submit">更新</button>

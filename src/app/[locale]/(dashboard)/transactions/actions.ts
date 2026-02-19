@@ -67,8 +67,6 @@ export async function createPurchaseAction(formData: FormData) {
     purchaseYen: formData.get('purchase_yen'),
     type: formData.get('type'),
     commissionId: formData.get('commission_id') || '',
-    airdropType: formData.get('airdrop_type') || undefined,
-    airdropProfit: formData.get('airdrop_profit') || undefined,
   })
   if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
@@ -84,12 +82,6 @@ export async function createPurchaseAction(formData: FormData) {
     purchase_yen: parsed.data.purchaseYen,
     type: parsed.data.type,
     commission_id: parsed.data.commissionId || null,
-    airdrop_type: null,
-    airdrop_profit: null,
-  }
-  if (parsed.data.type === 'a') {
-    payload.airdrop_type = parsed.data.airdropType ?? null
-    payload.airdrop_profit = parsed.data.airdropProfit ?? null
   }
 
   const { error } = await supabase.from('purchases').insert(payload)
@@ -246,8 +238,6 @@ export async function updatePurchaseAction(formData: FormData) {
     purchaseYen: formData.get('purchase_yen'),
     type: formData.get('type'),
     commissionId: formData.get('commission_id') || '',
-    airdropType: formData.get('airdrop_type') || undefined,
-    airdropProfit: formData.get('airdrop_profit') || undefined,
   })
   if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
@@ -262,12 +252,6 @@ export async function updatePurchaseAction(formData: FormData) {
     purchase_yen: parsed.data.purchaseYen,
     type: parsed.data.type,
     commission_id: parsed.data.commissionId || null,
-    airdrop_type: null,
-    airdrop_profit: null,
-  }
-  if (parsed.data.type === 'a') {
-    payload.airdrop_type = parsed.data.airdropType ?? null
-    payload.airdrop_profit = parsed.data.airdropProfit ?? null
   }
 
   const { error } = await supabase.from('purchases').update(payload).eq('id', id)

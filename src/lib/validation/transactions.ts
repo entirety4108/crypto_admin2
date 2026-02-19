@@ -24,17 +24,6 @@ export const purchaseSchema = z.object({
   purchaseYen: nonNegativeNumber,
   type: z.enum(['d', 'a']),
   commissionId: uuid.optional().or(z.literal('')),
-  airdropType: z.coerce.number().int().min(1).max(2).optional(),
-  airdropProfit: nonNegativeNumber.optional(),
-}).superRefine((value, ctx) => {
-  if (value.type === 'a') {
-    if (!value.airdropType) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'エアドロップ種別を選択してください', path: ['airdropType'] })
-    }
-    if (value.airdropProfit === undefined) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'エアドロップ損益を入力してください', path: ['airdropProfit'] })
-    }
-  }
 })
 
 export const sellSchema = z.object({
