@@ -18,13 +18,13 @@
 - [x] CI（lint/typecheck/test）追加
 
 ## Phase 2: 認証・ルーティング
-- [ ] ログイン画面
-- [ ] 新規登録画面
-- [ ] パスワードリセット画面
-- [ ] 認証ガード（middleware）
-- [ ] 認証後リダイレクト（portfolio）
-- [ ] 共通ダッシュボードレイアウト（ナビ含む）
-- [ ] 言語切替UI
+- [x] ログイン画面
+- [x] 新規登録画面
+- [x] パスワードリセット画面
+- [x] 認証ガード（middleware）
+- [x] 認証後リダイレクト（portfolio）
+- [x] 共通ダッシュボードレイアウト（ナビ含む）
+- [x] 言語切替UI
 
 ## Phase 3: 管理機能（Accounts / Categories）
 - [ ] accounts 一覧ページ
