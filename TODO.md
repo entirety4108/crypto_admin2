@@ -27,13 +27,13 @@
 - [x] 言語切替UI
 
 ## Phase 3: 管理機能（Accounts / Categories）
-- [ ] accounts 一覧ページ
-- [ ] accounts 作成フォーム
-- [ ] accounts 編集フォーム
-- [ ] accounts 削除処理（論理削除方針があれば対応）
-- [ ] crypt_categories 一覧/作成/編集/削除
-- [ ] user_crypt_categories 紐付けUI
-- [ ] 画面/APIのバリデーション（Zod）
+- [x] accounts 一覧ページ
+- [x] accounts 作成フォーム
+- [x] accounts 編集フォーム
+- [x] accounts 削除処理（論理削除方針があれば対応）
+- [x] crypt_categories 一覧/作成/編集/削除
+- [x] user_crypt_categories 紐付けUI
+- [x] 画面/APIのバリデーション（Zod）
 
 ## Phase 4: 取引管理（CRUD）
 - [ ] 取引一覧ページ（種別フィルタ/期間フィルタ）
