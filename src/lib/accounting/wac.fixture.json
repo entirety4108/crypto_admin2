@@ -1,0 +1,64 @@
+{
+  "name": "legacy-comparison-basic",
+  "transactions": [
+    {
+      "id": "tx-001",
+      "userId": "u-1",
+      "accountId": "a-1",
+      "cryptId": "btc",
+      "type": "purchase",
+      "occurredAt": "2026-01-01T00:00:00Z",
+      "quantity": "1.00000000",
+      "yenAmount": "1000000.00"
+    },
+    {
+      "id": "tx-002",
+      "userId": "u-1",
+      "accountId": "a-1",
+      "cryptId": "btc",
+      "type": "purchase",
+      "occurredAt": "2026-01-02T00:00:00Z",
+      "quantity": "0.50000000",
+      "yenAmount": "600000.00"
+    },
+    {
+      "id": "tx-003",
+      "userId": "u-1",
+      "accountId": "a-1",
+      "cryptId": "btc",
+      "type": "sell",
+      "occurredAt": "2026-01-03T00:00:00Z",
+      "quantity": "0.40000000",
+      "yenAmount": "500000.00"
+    }
+  ],
+  "expectedSnapshots": [
+    {
+      "transactionId": "tx-001",
+      "transactionType": "purchase",
+      "occurredAt": "2026-01-01T00:00:00Z",
+      "totalQty": "1.00000000",
+      "totalCost": "1000000.00",
+      "wac": "1000000.00000000",
+      "realizedPnl": null
+    },
+    {
+      "transactionId": "tx-002",
+      "transactionType": "purchase",
+      "occurredAt": "2026-01-02T00:00:00Z",
+      "totalQty": "1.50000000",
+      "totalCost": "1600000.00",
+      "wac": "1066666.66666667",
+      "realizedPnl": null
+    },
+    {
+      "transactionId": "tx-003",
+      "transactionType": "sell",
+      "occurredAt": "2026-01-03T00:00:00Z",
+      "totalQty": "1.10000000",
+      "totalCost": "1173333.33",
+      "wac": "1066666.66363636",
+      "realizedPnl": "73333.33"
+    }
+  ]
+}
