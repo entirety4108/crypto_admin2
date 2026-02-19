@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation'
 import { DashboardNav } from '@/components/dashboard-nav'
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { createClient } from '@/lib/supabase/server'
 
 export default async function DashboardLayout({
   children,
@@ -9,6 +11,14 @@ export default async function DashboardLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect(`/${locale}/login`)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
