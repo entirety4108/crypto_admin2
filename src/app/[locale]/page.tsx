@@ -3,10 +3,17 @@ import { createClient } from '@/lib/supabase/server'
 
 export default async function LocaleRootPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let isLoggedIn = false
 
-  redirect(`/${locale}/${user ? 'portfolio' : 'login'}`)
+  try {
+    const supabase = await createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    isLoggedIn = Boolean(user)
+  } catch {
+    isLoggedIn = false
+  }
+
+  redirect(`/${locale}/${isLoggedIn ? 'portfolio' : 'login'}`)
 }
