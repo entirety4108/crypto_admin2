@@ -12,7 +12,7 @@
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "supabase:types": "./scripts/generate-supabase-types.sh",
-    "test:rls": "supabase test db --file supabase/tests/rls_policies.sql"
+    "test:rls": "supabase test db supabase/tests/rls_policies.sql"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
