@@ -2,18 +2,18 @@ import { createClient } from '@/lib/supabase/server'
 
 type Account = { id: string; name: string }
 type Crypt = { id: string; symbol: string }
-type CostBasisRow = {
-  account_id: string
-  crypt_id: string
-  occurred_at: string
-  total_qty: string
-  total_cost: string
-  realized_pnl: string | null
-}
+type Sell = { exec_at: string; profit: string | null }
 type PriceRow = { crypt_id: string; exec_at: string; unit_yen: string }
 type Category = { id: string; name: string }
 type UserCryptCategory = { crypt_id: string; category_id: string }
-type DailyBalance = { date: string; valuation: string | null }
+type DailyBalance = {
+  account_id: string
+  crypt_id: string
+  date: string
+  amount: string
+  unit_price: string | null
+  valuation: string | null
+}
 
 type Holding = {
   accountId: string
@@ -55,24 +55,24 @@ export default async function PortfolioPage() {
 
   if (!user) return <p className="text-sm text-red-600">ログインが必要です。</p>
 
-  const [accountsRes, cryptsRes, costBasisRes, pricesRes, categoriesRes, userCryptCategoriesRes, dailyBalancesRes] =
+  const [accountsRes, cryptsRes, sellsRes, pricesRes, categoriesRes, userCryptCategoriesRes, dailyBalancesRes] =
     await Promise.all([
       supabase.from('accounts').select('id,name').order('name'),
       supabase.from('crypts').select('id,symbol').eq('is_active', true).order('symbol'),
-      supabase
-        .from('cost_basis_history')
-        .select('account_id,crypt_id,occurred_at,total_qty,total_cost,realized_pnl')
-        .order('occurred_at', { ascending: false }),
+      supabase.from('sells').select('exec_at,profit').order('exec_at', { ascending: false }),
       supabase.from('prices').select('crypt_id,exec_at,unit_yen').order('exec_at', { ascending: false }),
       supabase.from('crypt_categories').select('id,name').order('name'),
       supabase.from('user_crypt_categories').select('crypt_id,category_id'),
-      supabase.from('daily_balances').select('date,valuation').order('date', { ascending: true }),
+      supabase
+        .from('daily_balances')
+        .select('account_id,crypt_id,date,amount,unit_price,valuation')
+        .order('date', { ascending: true }),
     ])
 
   const error =
     accountsRes.error ||
     cryptsRes.error ||
-    costBasisRes.error ||
+    sellsRes.error ||
     pricesRes.error ||
     categoriesRes.error ||
     userCryptCategoriesRes.error ||
@@ -82,7 +82,7 @@ export default async function PortfolioPage() {
 
   const accounts = (accountsRes.data ?? []) as Account[]
   const crypts = (cryptsRes.data ?? []) as Crypt[]
-  const costBasis = (costBasisRes.data ?? []) as CostBasisRow[]
+  const sells = (sellsRes.data ?? []) as Sell[]
   const prices = (pricesRes.data ?? []) as PriceRow[]
   const categories = (categoriesRes.data ?? []) as Category[]
   const userCryptCategories = (userCryptCategoriesRes.data ?? []) as UserCryptCategory[]
@@ -91,8 +91,10 @@ export default async function PortfolioPage() {
   const accountMap = new Map(accounts.map((a) => [a.id, a.name]))
   const cryptMap = new Map(crypts.map((c) => [c.id, c.symbol]))
 
-  const latestByAccountCrypt = new Map<string, CostBasisRow>()
-  for (const row of costBasis) {
+  const latestByAccountCrypt = new Map<string, DailyBalance>()
+  for (let i = dailyBalances.length - 1; i >= 0; i -= 1) {
+    const row = dailyBalances[i]
+    if (!row) continue
     const key = `${row.account_id}:${row.crypt_id}`
     if (!latestByAccountCrypt.has(key)) latestByAccountCrypt.set(key, row)
   }
@@ -104,11 +106,11 @@ export default async function PortfolioPage() {
 
   const holdings: Holding[] = []
   for (const row of latestByAccountCrypt.values()) {
-    const qty = n(row.total_qty)
+    const qty = n(row.amount)
     if (qty <= 0) continue
-    const cost = n(row.total_cost)
-    const price = latestPriceByCrypt.get(row.crypt_id) ?? 0
-    const valuation = qty * price
+    const valuation = n(row.valuation)
+    const price = n(row.unit_price) || latestPriceByCrypt.get(row.crypt_id) || 0
+    const cost = Math.max(valuation - qty * price, 0)
     holdings.push({
       accountId: row.account_id,
       cryptId: row.crypt_id,
@@ -120,7 +122,7 @@ export default async function PortfolioPage() {
     })
   }
 
-  const realizedPnlTotal = sum(costBasis.map((row) => n(row.realized_pnl)))
+  const realizedPnlTotal = sum(sells.map((row) => n(row.profit)))
   const valuationTotal = sum(holdings.map((h) => h.valuation))
   const unrealizedPnlTotal = sum(holdings.map((h) => h.unrealizedPnl))
 
@@ -154,11 +156,11 @@ export default async function PortfolioPage() {
 
   const monthlyRealized = new Map<string, number>()
   const yearlyRealized = new Map<string, number>()
-  for (const row of costBasis) {
-    const pnl = n(row.realized_pnl)
+  for (const row of sells) {
+    const pnl = n(row.profit)
     if (!pnl) continue
-    const month = formatMonth(row.occurred_at)
-    const year = String(new Date(row.occurred_at).getFullYear())
+    const month = formatMonth(row.exec_at)
+    const year = String(new Date(row.exec_at).getFullYear())
     monthlyRealized.set(month, (monthlyRealized.get(month) ?? 0) + pnl)
     yearlyRealized.set(year, (yearlyRealized.get(year) ?? 0) + pnl)
   }
