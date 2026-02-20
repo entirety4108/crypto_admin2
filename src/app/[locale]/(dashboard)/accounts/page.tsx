@@ -4,6 +4,8 @@ import {
   updateAccountAction,
 } from './actions'
 import { createClient } from '@/lib/supabase/server'
+import { AlertMessage } from '@/components/ui/alert-message'
+import { EmptyState } from '@/components/ui/empty-state'
 
 type Account = {
   id: string
@@ -21,7 +23,7 @@ export default async function AccountsPage({ params }: { params: Promise<{ local
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return <p className="text-sm text-red-600">ログインが必要です。</p>
+    return <AlertMessage variant="error" message="ログインが必要です。" />
   }
 
   const { data: accounts, error } = await supabase
@@ -30,7 +32,7 @@ export default async function AccountsPage({ params }: { params: Promise<{ local
     .order('created_at', { ascending: false })
 
   if (error) {
-    return <p className="text-sm text-red-600">{error.message}</p>
+    return <AlertMessage variant="error" message={error.message} />
   }
 
   return (
@@ -55,7 +57,10 @@ export default async function AccountsPage({ params }: { params: Promise<{ local
       </form>
 
       <div className="space-y-3">
-        {(accounts as Account[] | null)?.map((account) => (
+        {((accounts as Account[] | null)?.length ?? 0) === 0 ? (
+          <EmptyState message="アカウントがまだありません。まずは1件追加してください。" />
+        ) : (
+          (accounts as Account[] | null)?.map((account) => (
           <form key={account.id} action={updateAccountAction} className="grid gap-2 rounded-lg border p-4 md:grid-cols-2">
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="id" value={account.id} />
@@ -89,7 +94,8 @@ export default async function AccountsPage({ params }: { params: Promise<{ local
               </button>
             </div>
           </form>
-        ))}
+        ))
+        )}
       </div>
     </section>
   )

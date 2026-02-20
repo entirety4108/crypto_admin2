@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
+import { AlertMessage } from '@/components/ui/alert-message'
 
 type Mode = 'login' | 'register' | 'reset'
 
@@ -64,25 +65,33 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
 
   return (
     <form onSubmit={onSubmit} className="mx-auto w-full max-w-md space-y-4 rounded-lg border border-slate-200 p-6">
-      <Input
-        type="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-        placeholder="Email"
-        required
-      />
-      {!isReset && (
+      <label className="space-y-1 text-sm">
+        <span>Email</span>
         <Input
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Password"
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="Email"
           required
-          minLength={8}
+          aria-label="email"
         />
+      </label>
+      {!isReset && (
+        <label className="space-y-1 text-sm">
+          <span>Password</span>
+          <Input
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Password"
+            required
+            minLength={8}
+            aria-label="password"
+          />
+        </label>
       )}
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      {message && <p className="text-sm text-emerald-600">{message}</p>}
+      {error && <AlertMessage variant="error" message={error} />}
+      {message && <AlertMessage variant="success" message={message} />}
       <Button disabled={loading} className="w-full" type="submit">
         {loading ? '処理中...' : mode === 'login' ? 'ログイン' : mode === 'register' ? '新規登録' : 'リセットメール送信'}
       </Button>

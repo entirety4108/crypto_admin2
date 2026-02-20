@@ -6,6 +6,8 @@ import {
   updateCategoryAction,
 } from './actions'
 import { createClient } from '@/lib/supabase/server'
+import { AlertMessage } from '@/components/ui/alert-message'
+import { EmptyState } from '@/components/ui/empty-state'
 
 type Category = {
   id: string
@@ -34,7 +36,7 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
   } = await supabase.auth.getUser()
 
   if (!user) {
-    return <p className="text-sm text-red-600">ログインが必要です。</p>
+    return <AlertMessage variant="error" message="ログインが必要です。" />
   }
 
   const [categoriesRes, cryptsRes, mappingsRes] = await Promise.all([
@@ -48,7 +50,7 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
 
   if (categoriesRes.error || cryptsRes.error || mappingsRes.error) {
     const message = categoriesRes.error?.message || cryptsRes.error?.message || mappingsRes.error?.message
-    return <p className="text-sm text-red-600">{message}</p>
+    return <AlertMessage variant="error" message={message ?? '取得に失敗しました'} />
   }
 
   const categories = categoriesRes.data
@@ -75,7 +77,10 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
       </form>
 
       <div className="space-y-3">
-        {(categories as Category[] | null)?.map((category) => (
+        {((categories as Category[] | null)?.length ?? 0) === 0 ? (
+          <EmptyState message="カテゴリがまだありません。" />
+        ) : (
+          (categories as Category[] | null)?.map((category) => (
           <form key={category.id} action={updateCategoryAction} className="grid gap-2 rounded-lg border p-4 md:grid-cols-3">
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="id" value={category.id} />
@@ -99,7 +104,8 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
               </button>
             </div>
           </form>
-        ))}
+        ))
+        )}
       </div>
 
       <div className="space-y-4 rounded-lg border p-4">
