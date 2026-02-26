@@ -28,16 +28,21 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="flex items-center justify-between border-b bg-white px-6 py-3">
-        <h1 className="text-lg font-semibold">Crypto Admin</h1>
-        <LanguageSwitcher locale={locale} />
-      </header>
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 p-6 md:grid-cols-[220px_1fr]">
-        <aside className="rounded-lg border bg-white">
-          <DashboardNav locale={locale} />
-        </aside>
-        <main className="rounded-lg border bg-white p-6">{children}</main>
+    <div className="flex min-h-screen bg-slate-50">
+      <aside className="fixed inset-y-0 left-0 z-20 flex w-64 flex-col bg-[#0f172a]">
+        <div className="flex h-16 items-center border-b border-[#1e293b] px-6">
+          <span className="text-lg font-bold text-white">₿ Crypto Admin</span>
+        </div>
+        <DashboardNav locale={locale} />
+        <div className="mt-auto border-t border-[#1e293b] p-4">
+          <LanguageSwitcher locale={locale} />
+        </div>
+      </aside>
+
+      <div className="ml-64 flex min-h-screen flex-1 flex-col">
+        <main className="mx-auto w-full max-w-7xl flex-1 p-8">
+          {children}
+        </main>
       </div>
     </div>
   )

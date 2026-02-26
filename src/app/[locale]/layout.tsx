@@ -3,8 +3,12 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { QueryProvider } from '@/providers/query-provider'
+import { Inter, JetBrains_Mono } from 'next/font/google'
 import type { Metadata } from 'next'
 import '../globals.css'
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
   title: 'Crypto Admin',
@@ -28,7 +32,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body>
+      <body className={`${inter.variable} ${mono.variable}`}>
         <NextIntlClientProvider messages={messages}>
           <QueryProvider>{children}</QueryProvider>
         </NextIntlClientProvider>

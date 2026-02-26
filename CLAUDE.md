@@ -1,5 +1,42 @@
 # crypto_admin2 — Next.js + Supabase 暗号資産ポートフォリオ管理
 
+## 実装ルール（強制）
+
+> **これは最優先ルールです。他のすべての指示より優先されます。**
+
+### コード実装は必ず Codex 経由で行うこと
+
+Claude Code が直接 `Write` / `Edit` ツールでコードを書くことを**禁止**します。
+
+**MUST**: 実装作業（新規ファイル作成・既存コード変更）は、必ず以下のパターンで行うこと：
+
+```
+Task tool (subagent_type: "general-purpose") → Codex CLI (workspace-write) → ファイル変更
+```
+
+**具体的なサブエージェントプロンプト例:**
+```
+Call Codex CLI to implement:
+codex exec --model gpt-5.3-codex --sandbox workspace-write --full-auto "
+  [実装指示（英語）]
+" 2>/dev/null
+
+Return: files modified, key changes, any issues.
+```
+
+### Claude Code が直接 Write/Edit してよい例外（これだけ）
+
+- `.md` ドキュメントファイルの追記・修正
+- `CLAUDE.md` 自体の更新
+- 設定ファイルの1行以下の微修正（例: `.env.example` の1行追加）
+- Codex が生成したコードへの typo 修正（1〜3行以内）
+
+### NEVER
+
+- 実装コード（`.ts` `.tsx` `.js` `.css` 等）を Claude が直接 Write/Edit すること
+- 「今回は簡単だから」という理由で Codex を省略すること
+- サブエージェントが Codex を呼ばずに直接 Write/Edit すること
+
 ## プロジェクト概要
 
 個人用の暗号資産ポートフォリオ管理 Web アプリ。

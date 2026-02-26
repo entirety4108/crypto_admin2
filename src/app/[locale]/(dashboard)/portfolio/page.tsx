@@ -1,4 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableCellNumeric,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 
 type Account = { id: string; name: string }
 type Crypt = { id: string; symbol: string }
@@ -45,6 +54,28 @@ function formatMonth(iso: string) {
 function formatYmd(iso: string) {
   const d = new Date(iso)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function pnlColor(value: number) {
+  return value >= 0 ? 'text-green-500' : 'text-red-500'
+}
+
+function PnlArrow({ value }: { value: number }) {
+  if (value > 0) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block">
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    )
+  }
+  if (value < 0) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block">
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    )
+  }
+  return null
 }
 
 export default async function PortfolioPage() {
@@ -176,130 +207,208 @@ export default async function PortfolioPage() {
   return (
     <section className="space-y-8">
       <div>
-        <h2 className="text-xl font-semibold">Portfolio</h2>
-        <p className="text-sm text-slate-600">Phase6: サマリー、保有内訳、損益レポート、残高履歴を表示します。</p>
+        <h2 className="text-2xl font-bold text-slate-900">Portfolio</h2>
+        <p className="mt-1 text-sm text-slate-500">保有資産の評価額・損益サマリー</p>
       </div>
 
+      {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-3">
-        <article className="rounded-lg border p-4">
-          <p className="text-sm text-slate-500">総評価額</p>
-          <p className="text-2xl font-semibold">¥{fmtJPY.format(valuationTotal)}</p>
+        <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-stretch">
+            <div className="w-1 shrink-0 bg-slate-400" />
+            <div className="flex-1 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">総評価額</p>
+              <p className="mt-2 font-mono text-3xl font-bold tabular-nums text-slate-900">
+                ¥{fmtJPY.format(valuationTotal)}
+              </p>
+            </div>
+          </div>
         </article>
-        <article className="rounded-lg border p-4">
-          <p className="text-sm text-slate-500">確定損益</p>
-          <p className={`text-2xl font-semibold ${realizedPnlTotal >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-            ¥{fmtJPY.format(realizedPnlTotal)}
-          </p>
+        <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-stretch">
+            <div className={`w-1 shrink-0 ${realizedPnlTotal >= 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+            <div className="flex-1 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">確定損益</p>
+              <p className={`mt-2 flex items-center gap-1 font-mono text-3xl font-bold tabular-nums ${pnlColor(realizedPnlTotal)}`}>
+                <PnlArrow value={realizedPnlTotal} />
+                ¥{fmtJPY.format(realizedPnlTotal)}
+              </p>
+            </div>
+          </div>
         </article>
-        <article className="rounded-lg border p-4">
-          <p className="text-sm text-slate-500">評価損益</p>
-          <p className={`text-2xl font-semibold ${unrealizedPnlTotal >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
-            ¥{fmtJPY.format(unrealizedPnlTotal)}
-          </p>
+        <article className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="flex items-stretch">
+            <div className={`w-1 shrink-0 ${unrealizedPnlTotal >= 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+            <div className="flex-1 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">評価損益</p>
+              <p className={`mt-2 flex items-center gap-1 font-mono text-3xl font-bold tabular-nums ${pnlColor(unrealizedPnlTotal)}`}>
+                <PnlArrow value={unrealizedPnlTotal} />
+                ¥{fmtJPY.format(unrealizedPnlTotal)}
+              </p>
+            </div>
+          </div>
         </article>
       </div>
 
+      {/* Holdings by Account and Category */}
       <div className="grid gap-6 lg:grid-cols-2">
-        <article className="space-y-2 rounded-lg border p-4">
-          <h3 className="font-medium">アカウント別保有</h3>
+        <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-100 px-5 py-4">
+            <h3 className="font-semibold text-slate-900">アカウント別保有</h3>
+          </div>
           {holdingsByAccount.size === 0 ? (
-            <p className="text-sm text-slate-500">保有データがありません。</p>
+            <p className="p-5 text-sm text-slate-500">保有データがありません。</p>
           ) : (
-            <ul className="space-y-2 text-sm">
-              {[...holdingsByAccount.entries()]
-                .sort((a, b) => b[1].valuation - a[1].valuation)
-                .map(([accountId, v]) => (
-                  <li key={accountId} className="rounded border p-2">
-                    <p className="font-medium">{accountMap.get(accountId) ?? 'Unknown'}</p>
-                    <p className="text-slate-600">
-                      評価額: ¥{fmtJPY.format(v.valuation)} / 評価損益: ¥{fmtJPY.format(v.valuation - v.cost)} / 保有数量:{' '}
-                      {fmtQty.format(v.qty)}
-                    </p>
-                  </li>
-                ))}
-            </ul>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>アカウント</TableHead>
+                  <TableHead className="text-right">評価額</TableHead>
+                  <TableHead className="text-right">評価損益</TableHead>
+                  <TableHead className="text-right">損益率</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...holdingsByAccount.entries()]
+                  .sort((a, b) => b[1].valuation - a[1].valuation)
+                  .map(([accountId, v]) => {
+                    const pnl = v.valuation - v.cost
+                    const pnlPct = v.cost > 0 ? (pnl / v.cost) * 100 : 0
+                    return (
+                      <TableRow key={accountId}>
+                        <TableCell className="font-medium text-slate-900">
+                          {accountMap.get(accountId) ?? 'Unknown'}
+                        </TableCell>
+                        <TableCellNumeric>¥{fmtJPY.format(v.valuation)}</TableCellNumeric>
+                        <TableCellNumeric className={pnlColor(pnl)}>
+                          ¥{fmtJPY.format(pnl)}
+                        </TableCellNumeric>
+                        <TableCellNumeric className={pnlColor(pnlPct)}>
+                          {pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(2)}%
+                        </TableCellNumeric>
+                      </TableRow>
+                    )
+                  })}
+              </TableBody>
+            </Table>
           )}
         </article>
 
-        <article className="space-y-2 rounded-lg border p-4">
-          <h3 className="font-medium">カテゴリ別保有</h3>
+        <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-100 px-5 py-4">
+            <h3 className="font-semibold text-slate-900">カテゴリ別保有</h3>
+          </div>
           {holdingsByCategory.size === 0 ? (
-            <p className="text-sm text-slate-500">カテゴリ別データがありません。</p>
+            <p className="p-5 text-sm text-slate-500">カテゴリ別データがありません。</p>
           ) : (
-            <ul className="space-y-2 text-sm">
-              {[...holdingsByCategory.entries()]
-                .sort((a, b) => b[1].valuation - a[1].valuation)
-                .map(([categoryName, v]) => (
-                  <li key={categoryName} className="rounded border p-2">
-                    <p className="font-medium">{categoryName}</p>
-                    <p className="text-slate-600">
-                      評価額: ¥{fmtJPY.format(v.valuation)} / 評価損益: ¥{fmtJPY.format(v.valuation - v.cost)} / 保有数量:{' '}
-                      {fmtQty.format(v.qty)}
-                    </p>
-                  </li>
-                ))}
-            </ul>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>カテゴリ</TableHead>
+                  <TableHead className="text-right">評価額</TableHead>
+                  <TableHead className="text-right">評価損益</TableHead>
+                  <TableHead className="text-right">損益率</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...holdingsByCategory.entries()]
+                  .sort((a, b) => b[1].valuation - a[1].valuation)
+                  .map(([categoryName, v]) => {
+                    const pnl = v.valuation - v.cost
+                    const pnlPct = v.cost > 0 ? (pnl / v.cost) * 100 : 0
+                    return (
+                      <TableRow key={categoryName}>
+                        <TableCell className="font-medium text-slate-900">{categoryName}</TableCell>
+                        <TableCellNumeric>¥{fmtJPY.format(v.valuation)}</TableCellNumeric>
+                        <TableCellNumeric className={pnlColor(pnl)}>
+                          ¥{fmtJPY.format(pnl)}
+                        </TableCellNumeric>
+                        <TableCellNumeric className={pnlColor(pnlPct)}>
+                          {pnlPct >= 0 ? '+' : ''}{pnlPct.toFixed(2)}%
+                        </TableCellNumeric>
+                      </TableRow>
+                    )
+                  })}
+              </TableBody>
+            </Table>
           )}
         </article>
       </div>
 
+      {/* PnL Reports */}
       <div className="grid gap-6 lg:grid-cols-2">
-        <article className="space-y-2 rounded-lg border p-4">
-          <h3 className="font-medium">損益レポート（月次）</h3>
+        <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-100 px-5 py-4">
+            <h3 className="font-semibold text-slate-900">損益レポート（月次）</h3>
+          </div>
           {monthlyRealized.size === 0 ? (
-            <p className="text-sm text-slate-500">確定損益データがありません。</p>
+            <p className="p-5 text-sm text-slate-500">確定損益データがありません。</p>
           ) : (
-            <ul className="space-y-1 text-sm">
+            <div className="divide-y divide-slate-100">
               {[...monthlyRealized.entries()]
                 .sort((a, b) => (a[0] > b[0] ? -1 : 1))
                 .map(([month, pnl]) => (
-                  <li key={month} className="flex items-center justify-between border-b py-1">
-                    <span>{month}</span>
-                    <span className={pnl >= 0 ? 'text-emerald-600' : 'text-rose-600'}>¥{fmtJPY.format(pnl)}</span>
-                  </li>
+                  <div key={month} className="flex items-center justify-between px-5 py-3">
+                    <span className="text-sm text-slate-500">{month}</span>
+                    <span className={`font-mono text-sm tabular-nums ${pnlColor(pnl)}`}>
+                      ¥{fmtJPY.format(pnl)}
+                    </span>
+                  </div>
                 ))}
-            </ul>
+            </div>
           )}
         </article>
 
-        <article className="space-y-2 rounded-lg border p-4">
-          <h3 className="font-medium">損益レポート（年次）</h3>
+        <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-100 px-5 py-4">
+            <h3 className="font-semibold text-slate-900">損益レポート（年次）</h3>
+          </div>
           {yearlyRealized.size === 0 ? (
-            <p className="text-sm text-slate-500">確定損益データがありません。</p>
+            <p className="p-5 text-sm text-slate-500">確定損益データがありません。</p>
           ) : (
-            <ul className="space-y-1 text-sm">
+            <div className="divide-y divide-slate-100">
               {[...yearlyRealized.entries()]
                 .sort((a, b) => (a[0] > b[0] ? -1 : 1))
                 .map(([year, pnl]) => (
-                  <li key={year} className="flex items-center justify-between border-b py-1">
-                    <span>{year}</span>
-                    <span className={pnl >= 0 ? 'text-emerald-600' : 'text-rose-600'}>¥{fmtJPY.format(pnl)}</span>
-                  </li>
+                  <div key={year} className="flex items-center justify-between px-5 py-3">
+                    <span className="text-sm text-slate-500">{year}</span>
+                    <span className={`font-mono text-sm tabular-nums ${pnlColor(pnl)}`}>
+                      ¥{fmtJPY.format(pnl)}
+                    </span>
+                  </div>
                 ))}
-            </ul>
+            </div>
           )}
         </article>
       </div>
 
-      <article className="space-y-3 rounded-lg border p-4">
-        <h3 className="font-medium">残高履歴（日次）</h3>
+      {/* Daily Balance Chart */}
+      <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 px-5 py-4">
+          <h3 className="font-semibold text-slate-900">残高履歴（日次）</h3>
+        </div>
         {dailySeries.length === 0 ? (
-          <p className="text-sm text-slate-500">daily_balances のデータがないためグラフを表示できません。</p>
+          <p className="p-5 text-sm text-slate-500">daily_balances のデータがないためグラフを表示できません。</p>
         ) : (
-          <div className="space-y-2">
-            <div className="flex h-28 items-end gap-1 rounded border p-2">
+          <div className="p-5 space-y-3">
+            <div className="flex justify-end">
+              <span className="font-mono text-xs tabular-nums text-slate-400">
+                MAX: ¥{fmtJPY.format(maxDailyValuation)}
+              </span>
+            </div>
+            <div className="flex h-40 items-end gap-1 rounded-lg bg-slate-50 p-3">
               {dailySeries.map((point) => (
                 <div
                   key={point.date}
-                  className="min-w-1 flex-1 rounded-sm bg-slate-700"
+                  className="min-w-1 flex-1 rounded-sm bg-emerald-500 opacity-80 hover:opacity-100 transition-opacity"
                   style={{ height: `${Math.max((point.valuation / maxDailyValuation) * 100, 2)}%` }}
                   title={`${formatYmd(point.date)}: ¥${fmtJPY.format(point.valuation)}`}
                 />
               ))}
             </div>
-            <ul className="grid gap-1 text-xs text-slate-600 md:grid-cols-3">
+            <ul className="grid gap-1 text-xs text-slate-500 md:grid-cols-3">
               {dailySeries.slice(-6).map((point) => (
-                <li key={point.date}>
+                <li key={point.date} className="font-mono tabular-nums">
                   {formatYmd(point.date)}: ¥{fmtJPY.format(point.valuation)}
                 </li>
               ))}
@@ -308,25 +417,43 @@ export default async function PortfolioPage() {
         )}
       </article>
 
-      <article className="space-y-2 rounded-lg border p-4">
-        <h3 className="font-medium">通貨別ポジション（最新）</h3>
+      {/* Positions Table */}
+      <article className="rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 px-5 py-4">
+          <h3 className="font-semibold text-slate-900">通貨別ポジション（最新）</h3>
+        </div>
         {holdings.length === 0 ? (
-          <p className="text-sm text-slate-500">保有ポジションがありません。</p>
+          <p className="p-5 text-sm text-slate-500">保有ポジションがありません。</p>
         ) : (
-          <ul className="space-y-1 text-sm">
-            {holdings
-              .sort((a, b) => b.valuation - a.valuation)
-              .map((h) => (
-                <li key={`${h.accountId}-${h.cryptId}`} className="rounded border p-2">
-                  <p className="font-medium">
-                    {cryptMap.get(h.cryptId) ?? h.cryptId} / {accountMap.get(h.accountId) ?? h.accountId}
-                  </p>
-                  <p className="text-slate-600">
-                    数量: {fmtQty.format(h.qty)} / 単価: ¥{fmtJPY.format(h.price)} / 評価額: ¥{fmtJPY.format(h.valuation)}
-                  </p>
-                </li>
-              ))}
-          </ul>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>通貨 / アカウント</TableHead>
+                <TableHead className="text-right">数量</TableHead>
+                <TableHead className="text-right">単価</TableHead>
+                <TableHead className="text-right">評価額</TableHead>
+                <TableHead className="text-right">評価損益</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {holdings
+                .sort((a, b) => b.valuation - a.valuation)
+                .map((h) => (
+                  <TableRow key={`${h.accountId}-${h.cryptId}`}>
+                    <TableCell>
+                      <p className="font-bold text-slate-900">{cryptMap.get(h.cryptId) ?? h.cryptId}</p>
+                      <p className="text-xs text-slate-500">{accountMap.get(h.accountId) ?? h.accountId}</p>
+                    </TableCell>
+                    <TableCellNumeric className="text-slate-700">{fmtQty.format(h.qty)}</TableCellNumeric>
+                    <TableCellNumeric className="text-slate-700">¥{fmtJPY.format(h.price)}</TableCellNumeric>
+                    <TableCellNumeric className="font-medium text-slate-900">¥{fmtJPY.format(h.valuation)}</TableCellNumeric>
+                    <TableCellNumeric className={pnlColor(h.unrealizedPnl)}>
+                      ¥{fmtJPY.format(h.unrealizedPnl)}
+                    </TableCellNumeric>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
         )}
       </article>
     </section>

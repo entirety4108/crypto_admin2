@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-type ButtonVariant = 'default' | 'outline' | 'ghost'
+type ButtonVariant = 'default' | 'primary' | 'outline' | 'ghost'
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
 
 const variantClasses: Record<ButtonVariant, string> = {
-  default: 'bg-slate-900 text-white hover:bg-slate-800',
+  default: 'bg-[#0f172a] text-white hover:bg-[#1e293b]',
+  primary: 'bg-emerald-600 text-white hover:bg-emerald-700',
   outline: 'border border-slate-300 bg-white hover:bg-slate-50',
   ghost: 'hover:bg-slate-100',
 }
@@ -28,7 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400',
+          'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400',
           variantClasses[variant],
           sizeClasses[size],
           className,
