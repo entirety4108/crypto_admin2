@@ -32,3 +32,6 @@ supabase/.temp
 *.log
 *.swp
 .history
+
+# local setting
+.claude\settings.local.json
