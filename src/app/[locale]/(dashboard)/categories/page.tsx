@@ -80,6 +80,7 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
 
   const categoryMappingsMap = buildCategoryMappingsMap(mappings)
   const cryptMap = buildCryptMap(crypts)
+  const allLinkedCryptIds = new Set(mappings.map((m) => m.crypt_id))
 
   return (
     <section className="space-y-6">
@@ -144,7 +145,7 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
             const linkedCrypts = categoryMappings
               .map((m) => ({ mappingId: m.id, crypt: cryptMap.get(m.crypt_id) }))
               .filter((item): item is { mappingId: string; crypt: Crypt } => Boolean(item.crypt))
-            const availableCrypts = crypts.filter((c) => !linkedCryptIds.has(c.id))
+            const availableCrypts = crypts.filter((c) => !allLinkedCryptIds.has(c.id))
             const categoryColor = getCategoryColor(category.color)
 
             return (
