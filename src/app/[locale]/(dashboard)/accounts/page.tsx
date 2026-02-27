@@ -15,6 +15,10 @@ type Account = {
   is_locked: boolean | null
 }
 
+function hasIconUrl(iconUrl: string | null): iconUrl is string {
+  return Boolean(iconUrl?.trim())
+}
+
 function getAvatarColor(name: string): string {
   const colors = [
     'bg-blue-500',
@@ -127,11 +131,21 @@ export default async function AccountsPage({
               className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
             >
               <summary className="flex cursor-pointer list-none items-center gap-4 p-5">
-                <div
-                  className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${getAvatarColor(account.name)}`}
-                >
-                  {account.name.slice(0, 2).toUpperCase()}
-                </div>
+                {hasIconUrl(account.icon_url) ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={account.icon_url}
+                    alt={`${account.name} icon`}
+                    className="h-10 w-10 flex-shrink-0 rounded-full border border-slate-200 object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${getAvatarColor(account.name)}`}
+                  >
+                    {account.name.slice(0, 2).toUpperCase()}
+                  </div>
+                )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <span className="text-base font-semibold text-slate-900">

@@ -13,6 +13,10 @@ type Crypt = {
   is_active: boolean
 }
 
+function hasIconUrl(iconUrl: string | null): iconUrl is string {
+  return Boolean(iconUrl?.trim())
+}
+
 function getCryptColor(color: string | null): string {
   return color && color.trim() ? color : '#6366f1'
 }
@@ -152,10 +156,20 @@ export default async function CryptsPage({
                 className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
               >
                 <summary className="flex cursor-pointer list-none items-center gap-4 p-5 hover:bg-slate-50">
-                  <div
-                    className="h-3 w-3 flex-shrink-0 rounded-full"
-                    style={{ backgroundColor: cryptColor }}
-                  />
+                  {hasIconUrl(crypt.icon_url) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={crypt.icon_url}
+                      alt={`${crypt.symbol} icon`}
+                      className="h-8 w-8 flex-shrink-0 rounded-full border border-slate-200 object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      className="h-3 w-3 flex-shrink-0 rounded-full"
+                      style={{ backgroundColor: cryptColor }}
+                    />
+                  )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span

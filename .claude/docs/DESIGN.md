@@ -397,6 +397,7 @@ SELECT pg_advisory_unlock(hashtext(account_id::text));
 
 | Date       | Changes                                                                                                            |
 | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| 2026-02-27 | Accounts/Crypts admin list now prioritizes `icon_url` rendering; falls back to initials/avatar color when missing |
 | 2026-02-27 | Portfolio now computes KPI/holdings from purchases+sells+transfers ledger for immediate reflection after transaction changes; daily_balances remains chart cache |
 | 2026-02-13 | Added Swap feature: domain models, repository, provider, form/list screens with profit calculation and filtering   |
 | 2026-02-09 | Added Airdrop feature: repository, provider, form/list screens with type filtering (エアドロップ/ステーキング報酬) |
