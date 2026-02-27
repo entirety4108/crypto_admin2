@@ -1,5 +1,6 @@
 'use server'
 
+import { z } from 'zod'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
@@ -68,7 +69,8 @@ export async function updateCryptAction(formData: FormData) {
   const id = String(formData.get('id') ?? '')
   const locale = String(formData.get('locale') ?? 'ja')
 
-  if (!id) throw new Error('更新対象IDが不正です')
+  const idResult = z.string().uuid().safeParse(id)
+  if (!idResult.success) throw new Error('更新対象IDが不正です')
 
   await requireAuth()
 
