@@ -21,3 +21,17 @@ export const userCryptCategorySchema = z.object({
   cryptId: z.string().uuid('通貨を選択してください'),
   categoryId: z.string().uuid('カテゴリを選択してください'),
 })
+
+export const cryptSchema = z.object({
+  symbol: z.string().trim().min(1, 'シンボルは必須です').max(20),
+  projectName: z.string().trim().max(255).optional().or(z.literal('')),
+  coingeckoId: z.string().trim().max(100).optional().or(z.literal('')),
+  iconUrl: z.string().trim().url('有効なURLを入力してください').optional().or(z.literal('')),
+  color: z
+    .string()
+    .trim()
+    .regex(/^#[0-9A-Fa-f]{6}$/, 'カラーコードは #RRGGBB 形式で入力してください')
+    .optional()
+    .or(z.literal('')),
+  isActive: z.boolean().default(true),
+})
