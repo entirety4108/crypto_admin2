@@ -40,9 +40,7 @@ export default async function DashboardLayout({
       </aside>
 
       <div className="ml-64 flex min-h-screen flex-1 flex-col">
-        <main className="mx-auto w-full max-w-7xl flex-1 p-8">
-          {children}
-        </main>
+        <main className="mx-auto w-full max-w-7xl flex-1 p-8">{children}</main>
       </div>
     </div>
   )

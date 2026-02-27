@@ -8,6 +8,7 @@ description: PROACTIVELY track and document project design decisions without bei
 ## Purpose
 
 This skill manages the project's design documentation (`.claude/docs/DESIGN.md`). It automatically tracks:
+
 - Architecture decisions
 - Implementation plans
 - Library choices and their rationale
@@ -32,19 +33,20 @@ This skill manages the project's design documentation (`.claude/docs/DESIGN.md`)
 
 ### Sections to Update
 
-| Conversation Topic | Target Section |
-|-------------------|----------------|
-| Overall goals, purpose | Overview |
-| System structure, components | Architecture |
-| Patterns (ReAct, etc.) | Implementation Plan > Patterns |
-| Library choices | Implementation Plan > Libraries |
-| Why we chose X over Y | Implementation Plan > Key Decisions |
-| Things to implement later | TODO |
-| Unresolved questions | Open Questions |
+| Conversation Topic           | Target Section                      |
+| ---------------------------- | ----------------------------------- |
+| Overall goals, purpose       | Overview                            |
+| System structure, components | Architecture                        |
+| Patterns (ReAct, etc.)       | Implementation Plan > Patterns      |
+| Library choices              | Implementation Plan > Libraries     |
+| Why we chose X over Y        | Implementation Plan > Key Decisions |
+| Things to implement later    | TODO                                |
+| Unresolved questions         | Open Questions                      |
 
 ## Output Format
 
 When recording, confirm in Japanese:
+
 - What was recorded
 - Which section was updated
 - Brief summary of the change

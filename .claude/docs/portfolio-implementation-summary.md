@@ -10,6 +10,7 @@
 ## Files Created/Modified
 
 ### Domain Models (lib/features/portfolio/domain/)
+
 1. **portfolio_summary.dart** - ポートフォリオサマリーモデル
    - totalValueJpy: 総資産額（円）
    - totalCostBasisJpy: 総取得コスト
@@ -33,14 +34,16 @@
    - totalProfitLossJpy: 合計損益
 
 ### Repository (lib/features/portfolio/data/)
+
 1. **portfolio_repository.dart** - ポートフォリオデータ取得
    - getPortfolioSummary(): サマリー取得
    - getCryptHoldings(): 通貨別保有資産取得
    - getAccountHoldings(): アカウント別保有資産取得
    - calculateCurrentValue(): 現在価値計算
-   - _getAccountCryptHoldings(): アカウント毎の通貨保有取得（内部用）
+   - \_getAccountCryptHoldings(): アカウント毎の通貨保有取得（内部用）
 
 ### Provider (lib/features/portfolio/presentation/providers/)
+
 1. **portfolio_provider.dart** - Riverpod Providers
    - portfolioRepositoryProvider: リポジトリプロバイダー
    - portfolioSummaryProvider: サマリープロバイダー
@@ -48,6 +51,7 @@
    - accountHoldingsProvider: アカウント別保有プロバイダー
 
 ### Screens (lib/features/portfolio/presentation/screens/)
+
 1. **portfolio_screen.dart** - メインポートフォリオ画面（大幅更新）
    - サマリーカード: 総資産額、損益表示
    - 円グラフ: 保有資産構成（上位5通貨 + その他）
@@ -94,6 +98,7 @@ profitLossPercentage = (totalProfitLoss / totalCostBasis) × 100
 ## Database Integration
 
 ### Tables Used
+
 - **purchases**: 購入履歴（amount, purchase_yen）
 - **sells**: 売却履歴（amount）
 - **prices**: 価格履歴（unit_yen, exec_at）
@@ -101,6 +106,7 @@ profitLossPercentage = (totalProfitLoss / totalCostBasis) × 100
 - **accounts**: アカウントマスター（name, icon_url）
 
 ### Query Strategy
+
 1. 全購入・売却を取得し、通貨毎にグループ化
 2. WAC法で平均取得単価を計算
 3. prices テーブルから最新価格を取得
@@ -109,16 +115,19 @@ profitLossPercentage = (totalProfitLoss / totalCostBasis) × 100
 ## UI Components
 
 ### 1. Summary Card
+
 - 総資産額（大きく表示）
 - 損益額と損益率（色分け: 緑=利益、赤=損失、灰=変動なし）
 
 ### 2. Pie Chart (fl_chart)
+
 - 上位5通貨を表示
 - 6番目以降は「その他」としてグループ化
 - タッチインタラクション: タッチで拡大表示
 - 凡例付き
 
 ### 3. Holdings List - 通貨別
+
 - 通貨アイコン（最初の1文字）
 - 通貨名、シンボル
 - 評価額、損益
@@ -126,6 +135,7 @@ profitLossPercentage = (totalProfitLoss / totalCostBasis) × 100
 - 損益率バッジ（色分け）
 
 ### 4. Holdings List - アカウント別
+
 - ExpansionTile で折りたたみ表示
 - アカウント名、保有通貨数
 - 合計評価額、合計損益

@@ -20,33 +20,33 @@ metadata:
 
 **サブエージェント経由を推奨。** Gemini出力は大きくなりがちなため。
 
-| 状況 | 方法 |
-|------|------|
-| コードベース分析 | サブエージェント経由（推奨） |
-| ライブラリ調査 | サブエージェント経由（推奨） |
-| マルチモーダル | サブエージェント経由（推奨） |
-| 短い質問 (1-2文回答) | 直接呼び出しOK |
+| 状況                 | 方法                         |
+| -------------------- | ---------------------------- |
+| コードベース分析     | サブエージェント経由（推奨） |
+| ライブラリ調査       | サブエージェント経由（推奨） |
+| マルチモーダル       | サブエージェント経由（推奨） |
+| 短い質問 (1-2文回答) | 直接呼び出しOK               |
 
 ## Gemini vs Codex
 
-| Task | Gemini | Codex |
-|------|--------|-------|
-| **リポジトリ全体理解** | ✓ | |
-| **ライブラリ調査** | ✓ | |
-| **マルチモーダル (PDF/動画/音声)** | ✓ | |
-| **最新ドキュメント検索** | ✓ | |
-| **設計判断** | | ✓ |
-| **デバッグ** | | ✓ |
-| **コード実装** | | ✓ |
+| Task                               | Gemini | Codex |
+| ---------------------------------- | ------ | ----- |
+| **リポジトリ全体理解**             | ✓      |       |
+| **ライブラリ調査**                 | ✓      |       |
+| **マルチモーダル (PDF/動画/音声)** | ✓      |       |
+| **最新ドキュメント検索**           | ✓      |       |
+| **設計判断**                       |        | ✓     |
+| **デバッグ**                       |        | ✓     |
+| **コード実装**                     |        | ✓     |
 
 ## When to Consult (MUST)
 
-| Situation | Trigger Examples |
-|-----------|------------------|
-| **Research** | 「調べて」「リサーチ」 / "Research" "Investigate" |
-| **Library docs** | 「ライブラリ」「ドキュメント」 / "Library" "Docs" |
-| **Codebase analysis** | 「コードベース全体」 / "Entire codebase" |
-| **Multimodal** | 「PDF」「動画」「音声」 / "PDF" "Video" "Audio" |
+| Situation             | Trigger Examples                                  |
+| --------------------- | ------------------------------------------------- |
+| **Research**          | 「調べて」「リサーチ」 / "Research" "Investigate" |
+| **Library docs**      | 「ライブラリ」「ドキュメント」 / "Library" "Docs" |
+| **Codebase analysis** | 「コードベース全体」 / "Entire codebase"          |
+| **Multimodal**        | 「PDF」「動画」「音声」 / "PDF" "Video" "Audio"   |
 
 ## When NOT to Consult
 
@@ -112,6 +112,7 @@ gemini -p "{question}" --output-format json 2>/dev/null
 ## Output Location
 
 Save Gemini research results to:
+
 ```
 .claude/docs/research/{topic}.md
 ```
@@ -162,11 +163,11 @@ gemini -p "Transcribe and summarize: decisions, action items" < meeting.mp3 2>/d
 
 ## Integration with Codex
 
-| Workflow | Steps |
-|----------|-------|
-| **New feature** | Gemini research → Codex design review |
-| **Library choice** | Gemini comparison → Codex decision |
-| **Bug investigation** | Gemini codebase search → Codex debug |
+| Workflow              | Steps                                 |
+| --------------------- | ------------------------------------- |
+| **New feature**       | Gemini research → Codex design review |
+| **Library choice**    | Gemini comparison → Codex decision    |
+| **Bug investigation** | Gemini codebase search → Codex debug  |
 
 ## Why Gemini?
 

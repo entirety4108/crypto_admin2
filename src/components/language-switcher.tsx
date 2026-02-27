@@ -31,7 +31,11 @@ export function LanguageSwitcher({ locale }: { locale: string }) {
           key={target}
           href={toLocalePath(target)}
           onClick={() => setLocale(target)}
-          className={target === locale ? 'font-semibold underline' : 'text-slate-600 hover:text-slate-900'}
+          className={
+            target === locale
+              ? 'font-semibold underline'
+              : 'text-slate-600 hover:text-slate-900'
+          }
         >
           {target.toUpperCase()}
         </Link>

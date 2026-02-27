@@ -21,7 +21,8 @@ serve(async (req) => {
     // CORSヘッダー設定
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Headers':
+        'authorization, x-client-info, apikey, content-type',
     }
 
     // OPTIONSリクエストの処理
@@ -51,18 +52,22 @@ serve(async (req) => {
     if (existingJob) {
       console.log('✅ Job already completed for today')
       return new Response(
-        JSON.stringify({ message: 'Job already completed for today', date: today }),
+        JSON.stringify({
+          message: 'Job already completed for today',
+          date: today,
+        }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 200
+          status: 200,
         }
       )
     }
 
     // Advisory lockを取得（同時実行を防止）
     const lockKey = 12345 // update-daily-balances用の固有キー
-    const { data: lockAcquired } = await supabase
-      .rpc('pg_try_advisory_lock', { key: lockKey })
+    const { data: lockAcquired } = await supabase.rpc('pg_try_advisory_lock', {
+      key: lockKey,
+    })
 
     if (!lockAcquired) {
       console.log('⚠️  Another instance is running, skipping...')
@@ -70,7 +75,7 @@ serve(async (req) => {
         JSON.stringify({ message: 'Another instance is running' }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 409
+          status: 409,
         }
       )
     }
@@ -90,7 +95,8 @@ serve(async (req) => {
       console.log('📊 Calculating balances for all users...')
 
       // 全ユーザーのリストを取得
-      const { data: users, error: usersError } = await supabase.auth.admin.listUsers()
+      const { data: users, error: usersError } =
+        await supabase.auth.admin.listUsers()
 
       if (usersError) {
         throw new Error(`Failed to fetch users: ${usersError.message}`)
@@ -135,17 +141,20 @@ serve(async (req) => {
 
           const { error: upsertError } = await supabase
             .from('daily_balances')
-            .upsert({
-              user_id: balance.user_id,
-              account_id: balance.account_id,
-              crypt_id: balance.crypt_id,
-              date: today,
-              amount: balance.amount,
-              unit_price: unitPrice,
-              valuation: valuation,
-            }, {
-              onConflict: 'user_id,account_id,crypt_id,date'
-            })
+            .upsert(
+              {
+                user_id: balance.user_id,
+                account_id: balance.account_id,
+                crypt_id: balance.crypt_id,
+                date: today,
+                amount: balance.amount,
+                unit_price: unitPrice,
+                valuation: valuation,
+              },
+              {
+                onConflict: 'user_id,account_id,crypt_id,date',
+              }
+            )
 
           if (upsertError) {
             console.error(`Failed to upsert balance: ${upsertError.message}`)
@@ -167,11 +176,11 @@ serve(async (req) => {
         JSON.stringify({
           message: 'Daily balances updated successfully',
           date: today,
-          total_balances: totalBalances
+          total_balances: totalBalances,
         }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 200
+          status: 200,
         }
       )
     } finally {
@@ -180,13 +189,10 @@ serve(async (req) => {
     }
   } catch (error) {
     console.error('❌ Error:', error)
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: 500
-      }
-    )
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 500,
+    })
   }
 })
 

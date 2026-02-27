@@ -1,7 +1,7 @@
 ---
 name: phase-implement
 description: crypto_admin2のTODO.mdで指定したフェーズを実装し、完了時にチェックボックスをマーク
-argument-hint: "[phase-name]"
+argument-hint: '[phase-name]'
 allowed-tools: Read, Edit, Bash(*)
 disable-model-invocation: true
 ---
@@ -56,6 +56,7 @@ disable-model-invocation: true
 各フェーズの詳細は以下の通り：
 
 ### Phase 1: 基盤構築 ✅ (完了)
+
 - Supabase セットアップ
 - データベーススキーマ作成
 - RLS 設定
@@ -63,28 +64,33 @@ disable-model-invocation: true
 - 認証機能実装
 
 ### Phase 2: 価格データ取得
+
 - CoinGecko API 連携
 - crypts マスタデータ登録
 - Edge Function: update-prices 実装
 - Cron スケジューリング
 
 ### Phase 3: コア機能
+
 - アカウント管理
 - 取引管理（入金、売却、スワップ、振替、エアドロップ）
 - ポートフォリオ表示
 
 ### Phase 4: 分析・レポート
+
 - 残高履歴
 - 損益計算
 - テクニカル分析
 - チャート表示
 
 ### Phase 5: 外部連携
+
 - Zaim API 連携
 - Edge Functions デプロイ
 - Cron スケジューリング
 
 ### Phase 6: 通知・最終調整
+
 - Firebase Cloud Messaging
 - 価格アラート
 - テスト・最終調整

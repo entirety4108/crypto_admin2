@@ -14,7 +14,11 @@ export function AlertMessage({
   message: string
 }) {
   return (
-    <p role="alert" aria-live="polite" className={`rounded border px-3 py-2 text-sm ${variantClass[variant]}`}>
+    <p
+      role="alert"
+      aria-live="polite"
+      className={`rounded border px-3 py-2 text-sm ${variantClass[variant]}`}
+    >
       {message}
     </p>
   )

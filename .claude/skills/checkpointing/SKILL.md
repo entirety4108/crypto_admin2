@@ -74,6 +74,7 @@ CLI相談履歴を各エージェントの設定ファイルに追記。
 ```
 
 **発見するパターン例:**
+
 - テスト→実装の繰り返し（TDDワークフロー）
 - リサーチ→設計→実装の流れ
 - 特定ファイルセットの同時変更
@@ -136,6 +137,7 @@ python checkpoint.py --full --analyze
 # Checkpoint: 2026-01-28 15:30:00 UTC
 
 ## Summary
+
 - **Commits**: 5
 - **Files changed**: 12 (8 modified, 3 created, 1 deleted)
 - **Codex consultations**: 3
@@ -144,28 +146,34 @@ python checkpoint.py --full --analyze
 ## Git History
 
 ### Commits
+
 - `abc1234` Add checkpointing enhancement
 - `def5678` Update documentation
 
 ### File Changes
 
 **Created:**
+
 - `new_feature.py` (+120)
 
 **Modified:**
+
 - `checkpoint.py` (+80, -20)
 - `SKILL.md` (+45, -10)
 
 **Deleted:**
+
 - `old_script.py`
 
 ## CLI Tool Consultations
 
 ### Codex (3 consultations)
+
 - ✓ 設計: チェックポイント拡張アーキテクチャ
 - ✓ デバッグ: Git log parsing issue
 
 ### Gemini (2 researches)
+
 - ✓ 調査: Git integration best practices
 ```
 
@@ -177,22 +185,24 @@ python checkpoint.py --full --analyze
 ### 2026-01-26
 
 **Codex相談:**
+
 - ✓ サブエージェントパターンでCodex/Gemini呼び出しを推奨...
 
 **Gemini調査:**
+
 - ✓ MCP vs CLI比較調査...
 ```
 
 ## 実行タイミング
 
-| タイミング | 推奨モード |
-|-----------|-----------|
-| セッション終了前 | `--full --analyze` |
-| 重要な設計決定後 | `--full` |
-| 大きな機能実装完了後 | `--full --analyze` |
-| 長時間作業の区切り | `--full` |
+| タイミング                 | 推奨モード         |
+| -------------------------- | ------------------ |
+| セッション終了前           | `--full --analyze` |
+| 重要な設計決定後           | `--full`           |
+| 大きな機能実装完了後       | `--full --analyze` |
+| 長時間作業の区切り         | `--full`           |
 | 繰り返しパターンを感じた時 | `--full --analyze` |
-| 日次の軽い記録 | デフォルト |
+| 日次の軽い記録             | デフォルト         |
 
 ## 注意事項
 

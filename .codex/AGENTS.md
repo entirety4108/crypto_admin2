@@ -57,18 +57,23 @@ Structure your response for Claude Code to use:
 
 ```markdown
 ## Analysis
+
 {Your deep analysis}
 
 ## Recommendation
+
 {Clear, actionable recommendation}
 
 ## Rationale
+
 {Why this approach}
 
 ## Risks
+
 {Potential issues to watch}
 
 ## Next Steps
+
 {Concrete actions for Claude Code}
 ```
 

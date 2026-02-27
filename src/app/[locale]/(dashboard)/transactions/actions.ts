@@ -38,7 +38,8 @@ export async function createCommissionAction(formData: FormData) {
     amount: formData.get('amount'),
     approximateYen: formData.get('approximate_yen'),
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getAuthContext()
   const { error } = await supabase.from('commissions').insert({
@@ -68,7 +69,8 @@ export async function createPurchaseAction(formData: FormData) {
     type: formData.get('type'),
     commissionId: formData.get('commission_id') || '',
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getAuthContext()
   const payload: Record<string, unknown> = {
@@ -102,7 +104,8 @@ export async function createSellAction(formData: FormData) {
     type: 's',
     commissionId: formData.get('commission_id') || '',
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getAuthContext()
   const { error } = await supabase.from('sells').insert({
@@ -132,7 +135,8 @@ export async function createTransferAction(formData: FormData) {
     commissionId: formData.get('commission_id') || '',
     memo: formData.get('memo') || undefined,
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getAuthContext()
   const { error } = await supabase.from('transfers').insert({
@@ -167,7 +171,8 @@ export async function createSwapAction(formData: FormData) {
     buyPurchaseYen: formData.get('buy_purchase_yen'),
     commissionId: formData.get('commission_id') || '',
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getAuthContext()
 
@@ -239,7 +244,8 @@ export async function updatePurchaseAction(formData: FormData) {
     type: formData.get('type'),
     commissionId: formData.get('commission_id') || '',
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase } = await getAuthContext()
   const payload: Record<string, unknown> = {
@@ -254,7 +260,10 @@ export async function updatePurchaseAction(formData: FormData) {
     commission_id: parsed.data.commissionId || null,
   }
 
-  const { error } = await supabase.from('purchases').update(payload).eq('id', id)
+  const { error } = await supabase
+    .from('purchases')
+    .update(payload)
+    .eq('id', id)
   if (error) throw new Error(error.message)
 
   revalidate(locale)
@@ -275,7 +284,8 @@ export async function updateSellAction(formData: FormData) {
     type: 's',
     commissionId: formData.get('commission_id') || '',
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase } = await getAuthContext()
   const { error } = await supabase
@@ -310,7 +320,8 @@ export async function updateTransferAction(formData: FormData) {
     commissionId: formData.get('commission_id') || '',
     memo: formData.get('memo') || undefined,
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase } = await getAuthContext()
   const { error } = await supabase
@@ -373,9 +384,18 @@ export async function deleteCommissionAction(formData: FormData) {
 
   const { supabase } = await getAuthContext()
 
-  await supabase.from('purchases').update({ commission_id: null }).eq('commission_id', id)
-  await supabase.from('sells').update({ commission_id: null }).eq('commission_id', id)
-  await supabase.from('transfers').update({ commission_id: null }).eq('commission_id', id)
+  await supabase
+    .from('purchases')
+    .update({ commission_id: null })
+    .eq('commission_id', id)
+  await supabase
+    .from('sells')
+    .update({ commission_id: null })
+    .eq('commission_id', id)
+  await supabase
+    .from('transfers')
+    .update({ commission_id: null })
+    .eq('commission_id', id)
 
   const { error } = await supabase.from('commissions').delete().eq('id', id)
   if (error) throw new Error(error.message)
@@ -396,7 +416,8 @@ export async function updateCommissionAction(formData: FormData) {
     amount: formData.get('amount'),
     approximateYen: formData.get('approximate_yen'),
   })
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase } = await getAuthContext()
   const { error } = await supabase

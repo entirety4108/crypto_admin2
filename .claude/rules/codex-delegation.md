@@ -6,14 +6,14 @@
 
 **コンテキスト消費を意識してCodexを使う。** 大きな出力が予想される場合はサブエージェント経由を推奨。
 
-| 状況 | 推奨方法 |
-|------|----------|
-| 短い質問・短い回答 | 直接呼び出しOK |
+| 状況                       | 推奨方法                 |
+| -------------------------- | ------------------------ |
+| 短い質問・短い回答         | 直接呼び出しOK           |
 | **実装作業（デフォルト）** | **サブエージェント経由** |
-| 詳細な設計相談 | サブエージェント経由 |
-| デバッグ分析 | サブエージェント経由 |
-| リファクタリング | サブエージェント経由 |
-| 複数の質問がある | サブエージェント経由 |
+| 詳細な設計相談             | サブエージェント経由     |
+| デバッグ分析               | サブエージェント経由     |
+| リファクタリング           | サブエージェント経由     |
+| 複数の質問がある           | サブエージェント経由     |
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -39,10 +39,10 @@ Think of it as a trusted senior expert you can always consult.
 
 ## Role Division
 
-| Agent | Primary Role | Responsibilities |
-|-------|--------------|------------------|
+| Agent           | Primary Role                   | Responsibilities                                            |
+| --------------- | ------------------------------ | ----------------------------------------------------------- |
 | **Claude Code** | Orchestration & User Interface | Task management, user communication, planning, final review |
-| **Codex CLI** | Implementation & Reasoning | Code writing, design decisions, debugging, refactoring |
+| **Codex CLI**   | Implementation & Reasoning     | Code writing, design decisions, debugging, refactoring      |
 
 **Default principle: Claude orchestrates, Codex implements.**
 
@@ -62,13 +62,13 @@ ALWAYS delegate to Codex for:
 
 Consult Codex when user says:
 
-| Japanese | English |
-|----------|---------|
-| 「どう設計すべき？」「どう実装する？」 | "How should I design/implement?" |
-| 「なぜ動かない？」「原因は？」「エラーが出る」 | "Why doesn't this work?" "Error" |
-| 「どちらがいい？」「比較して」「トレードオフは？」 | "Which is better?" "Compare" |
-| 「〜を作りたい」「〜を実装して」 | "Build X" "Implement X" |
-| 「考えて」「分析して」「深く考えて」 | "Think" "Analyze" "Think deeper" |
+| Japanese                                           | English                          |
+| -------------------------------------------------- | -------------------------------- |
+| 「どう設計すべき？」「どう実装する？」             | "How should I design/implement?" |
+| 「なぜ動かない？」「原因は？」「エラーが出る」     | "Why doesn't this work?" "Error" |
+| 「どちらがいい？」「比較して」「トレードオフは？」 | "Which is better?" "Compare"     |
+| 「〜を作りたい」「〜を実装して」                   | "Build X" "Implement X"          |
+| 「考えて」「分析して」「深く考えて」               | "Think" "Analyze" "Think deeper" |
 
 ## Implementation Delegation Pattern
 
@@ -116,6 +116,7 @@ Task tool parameters:
 ### What Claude Does vs Codex Does
 
 **Claude Code (Orchestrator):**
+
 - ✓ Talk to user in Japanese
 - ✓ Understand requirements
 - ✓ Create tasks/plans
@@ -125,6 +126,7 @@ Task tool parameters:
 - ✓ Final review and reporting
 
 **Codex (Implementer):**
+
 - ✓ Write code
 - ✓ Design architecture
 - ✓ Debug issues
@@ -195,6 +197,7 @@ Task tool parameters:
 ### Direct Call (Only When Necessary)
 
 Only use direct Bash call when:
+
 - Quick, simple question (< 1 paragraph response expected)
 - Subagent overhead not justified
 
@@ -205,12 +208,13 @@ codex exec --model gpt-5.3-codex --sandbox read-only --full-auto "Brief question
 
 ### Sandbox Modes
 
-| Mode | Sandbox | Use Case |
-|------|---------|----------|
-| Analysis | `read-only` | Design review, debugging analysis, trade-offs |
-| Work | `workspace-write` | Implement, fix, refactor (subagent recommended) |
+| Mode     | Sandbox           | Use Case                                        |
+| -------- | ----------------- | ----------------------------------------------- |
+| Analysis | `read-only`       | Design review, debugging analysis, trade-offs   |
+| Work     | `workspace-write` | Implement, fix, refactor (subagent recommended) |
 
 **Language protocol:**
+
 1. Ask Codex in **English**
 2. Subagent receives response in **English**
 3. Subagent summarizes and returns to main

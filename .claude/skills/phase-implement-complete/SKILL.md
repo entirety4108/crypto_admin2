@@ -1,7 +1,7 @@
 ---
 name: phase-implement-complete
 description: 指定フェーズのすべての未完了タスクを完了（チェック）として TODO.md を更新
-argument-hint: "[phase-name]"
+argument-hint: '[phase-name]'
 allowed-tools: Read, Edit, Bash(*)
 disable-model-invocation: true
 ---
@@ -50,6 +50,7 @@ disable-model-invocation: true
 ## Phase 2: 価格データ取得 （チェック前）
 
 ### CoinGecko API連携
+
 - [ ] CoinGecko API調査
   - [ ] API エンドポイント確認
   - [ ] レート制限確認
@@ -61,6 +62,7 @@ disable-model-invocation: true
 ## Phase 2: 価格データ取得 （チェック後）
 
 ### CoinGecko API連携
+
 - [x] CoinGecko API調査
   - [x] API エンドポイント確認
   - [x] レート制限確認

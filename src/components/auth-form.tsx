@@ -29,7 +29,10 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
       const supabase = createClient()
 
       if (mode === 'login') {
-        const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
+        const { error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        })
 
         if (loginError) throw loginError
 
@@ -39,7 +42,10 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
       }
 
       if (mode === 'register') {
-        const { error: registerError } = await supabase.auth.signUp({ email, password })
+        const { error: registerError } = await supabase.auth.signUp({
+          email,
+          password,
+        })
 
         if (registerError) throw registerError
 
@@ -48,15 +54,21 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
         return
       }
 
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/${locale}/login`,
-      })
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/${locale}/login`,
+        }
+      )
 
       if (resetError) throw resetError
 
       setMessage('パスワードリセットメールを送信しました。')
     } catch (submitError) {
-      const text = submitError instanceof Error ? submitError.message : '認証に失敗しました。'
+      const text =
+        submitError instanceof Error
+          ? submitError.message
+          : '認証に失敗しました。'
       setError(text)
     } finally {
       setLoading(false)
@@ -64,7 +76,10 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mx-auto w-full max-w-md space-y-4 rounded-lg border border-slate-200 p-6">
+    <form
+      onSubmit={onSubmit}
+      className="mx-auto w-full max-w-md space-y-4 rounded-lg border border-slate-200 p-6"
+    >
       <label className="space-y-1 text-sm">
         <span>Email</span>
         <Input
@@ -93,7 +108,13 @@ export function AuthForm({ mode, locale }: { mode: Mode; locale: string }) {
       {error && <AlertMessage variant="error" message={error} />}
       {message && <AlertMessage variant="success" message={message} />}
       <Button disabled={loading} className="w-full" type="submit">
-        {loading ? '処理中...' : mode === 'login' ? 'ログイン' : mode === 'register' ? '新規登録' : 'リセットメール送信'}
+        {loading
+          ? '処理中...'
+          : mode === 'login'
+            ? 'ログイン'
+            : mode === 'register'
+              ? '新規登録'
+              : 'リセットメール送信'}
       </Button>
     </form>
   )

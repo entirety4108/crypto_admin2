@@ -66,13 +66,15 @@ Use Edit tool to update only the top section (up to first `---`) with this forma
 
 Update the `## Common Commands` section with detected commands:
 
-```markdown
+````markdown
 ## Common Commands
 
 ```bash
 # Detected commands (example)
 {npm run dev / poe test / make build etc.}
 ```
+````
+
 ```
 
 ### 5. Check Unnecessary Rules
@@ -89,3 +91,4 @@ Report to user (in Japanese):
 - Detected tech stack
 - Updated sections
 - Recommended rules to remove (if any)
+```

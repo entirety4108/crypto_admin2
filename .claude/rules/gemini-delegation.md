@@ -6,12 +6,12 @@
 
 **コンテキスト消費を意識してGeminiを使う。** Gemini出力は大きくなりがちなので、サブエージェント経由を推奨。
 
-| 状況 | 推奨方法 |
-|------|----------|
-| 短い質問・短い回答 | 直接呼び出しOK |
-| コードベース分析 | サブエージェント経由（出力大） |
-| ライブラリ調査 | サブエージェント経由（出力大） |
-| マルチモーダル処理 | サブエージェント経由 |
+| 状況               | 推奨方法                       |
+| ------------------ | ------------------------------ |
+| 短い質問・短い回答 | 直接呼び出しOK                 |
+| コードベース分析   | サブエージェント経由（出力大） |
+| ライブラリ調査     | サブエージェント経由（出力大） |
+| マルチモーダル処理 | サブエージェント経由           |
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -31,6 +31,7 @@
 ## About Gemini
 
 Gemini CLI excels at:
+
 - **1M token context window** — Analyze entire codebases at once
 - **Google Search grounding** — Access latest information
 - **Multimodal processing** — Video, audio, PDF analysis
@@ -41,16 +42,16 @@ Think of Gemini as your research assistant who can quickly gather and synthesize
 
 ## Gemini vs Codex: Choose the Right Tool
 
-| Task | Codex | Gemini |
-|------|-------|--------|
-| Design decisions | ✓ | |
-| Debugging | ✓ | |
-| Code implementation | ✓ | |
-| Trade-off analysis | ✓ | |
-| Large codebase understanding | | ✓ |
-| Pre-implementation research | | ✓ |
-| Latest docs/library research | | ✓ |
-| Video/Audio/PDF analysis | | ✓ |
+| Task                         | Codex | Gemini |
+| ---------------------------- | ----- | ------ |
+| Design decisions             | ✓     |        |
+| Debugging                    | ✓     |        |
+| Code implementation          | ✓     |        |
+| Trade-off analysis           | ✓     |        |
+| Large codebase understanding |       | ✓      |
+| Pre-implementation research  |       | ✓      |
+| Latest docs/library research |       | ✓      |
+| Video/Audio/PDF analysis     |       | ✓      |
 
 ## When to Consult Gemini
 
@@ -65,13 +66,13 @@ ALWAYS consult Gemini BEFORE:
 
 Consult Gemini when user says:
 
-| Japanese | English |
-|----------|---------|
+| Japanese                               | English                            |
+| -------------------------------------- | ---------------------------------- |
 | 「調べて」「リサーチして」「調査して」 | "Research" "Investigate" "Look up" |
-| 「このPDF/動画/音声を見て」 | "Analyze this PDF/video/audio" |
-| 「コードベース全体を理解して」 | "Understand the entire codebase" |
-| 「最新のドキュメントを確認して」 | "Check the latest documentation" |
-| 「〜について情報を集めて」 | "Gather information about X" |
+| 「このPDF/動画/音声を見て」            | "Analyze this PDF/video/audio"     |
+| 「コードベース全体を理解して」         | "Understand the entire codebase"   |
+| 「最新のドキュメントを確認して」       | "Check the latest documentation"   |
+| 「〜について情報を集めて」             | "Gather information about X"       |
 
 ## When NOT to Consult
 
@@ -112,6 +113,7 @@ Task tool parameters:
 ### Subagent Patterns by Task Type
 
 **Research Pattern:**
+
 ```
 prompt: |
   Research best practices for {topic}.
@@ -124,6 +126,7 @@ prompt: |
 ```
 
 **Codebase Analysis Pattern:**
+
 ```
 prompt: |
   Analyze codebase for {purpose}.
@@ -136,6 +139,7 @@ prompt: |
 ```
 
 **Multimodal Pattern:**
+
 ```
 prompt: |
   Extract information from {file}.
@@ -149,6 +153,7 @@ prompt: |
 ### Step 2: Continue Your Work
 
 While subagent is processing, you can:
+
 - Work on other files
 - Run tests
 - Spawn another subagent for Codex consultation
@@ -176,6 +181,7 @@ gemini -p "{question}" --output-format json 2>/dev/null
 ```
 
 **Language protocol:**
+
 1. Ask Gemini in **English**
 2. Subagent receives response in **English**
 3. Subagent summarizes and saves full output

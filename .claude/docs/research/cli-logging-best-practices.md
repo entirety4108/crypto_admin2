@@ -7,11 +7,13 @@ Research on logging Codex/Gemini CLI input/output in multi-agent system.
 ## Problem Statement
 
 Users cannot easily see:
+
 - What prompts were sent to Codex/Gemini
 - What responses were received
 - Timeline of AI agent interactions
 
 Both tools are called via Bash tool, so output is visible in Claude Code UI, but:
+
 - Hard to track across multiple conversations
 - No persistent history
 - Difficult to debug multi-agent workflows
@@ -56,6 +58,7 @@ Each line is a complete JSON object:
 ```
 
 **Fields**:
+
 - `timestamp`: ISO 8601 format with timezone
 - `tool`: "codex" or "gemini"
 - `model`: Model name used
@@ -65,6 +68,7 @@ Each line is a complete JSON object:
 - `exit_code`: Exit code from CLI command
 
 **Benefits**:
+
 - One log entry per line = easy to append
 - Valid JSON = easy to parse with `jq`, Python, etc.
 - Human-readable with proper formatting
@@ -191,6 +195,7 @@ Add to `PostToolUse` hooks:
 ```
 
 **Why `.claude/logs/`?**
+
 - Consistent with `.claude/` convention
 - Easy to add to `.gitignore` (logs are local-only)
 - Separate from documentation/rules
@@ -198,26 +203,31 @@ Add to `PostToolUse` hooks:
 ### 5. Querying Logs
 
 **View recent calls:**
+
 ```bash
 tail -20 .claude/logs/cli-tools.jsonl | jq '.'
 ```
 
 **Filter by tool:**
+
 ```bash
 jq 'select(.tool == "codex")' .claude/logs/cli-tools.jsonl
 ```
 
 **Count calls per tool:**
+
 ```bash
 jq -r '.tool' .claude/logs/cli-tools.jsonl | sort | uniq -c
 ```
 
 **Search prompts:**
+
 ```bash
 jq 'select(.prompt | contains("design"))' .claude/logs/cli-tools.jsonl
 ```
 
 **Failed calls only:**
+
 ```bash
 jq 'select(.success == false)' .claude/logs/cli-tools.jsonl
 ```
@@ -230,6 +240,7 @@ Create `codex-logged` and `gemini-logged` wrapper scripts.
 
 **Pros**: Clean separation
 **Cons**:
+
 - Requires changing all call sites
 - Easy to forget and call unwrapped version
 - More complex to maintain
@@ -240,6 +251,7 @@ Log before the tool executes.
 
 **Pros**: Captures input even if tool fails
 **Cons**:
+
 - Can't capture output
 - Can't measure duration
 - Need both Pre and Post hooks
@@ -250,6 +262,7 @@ Create Python logger that agents import.
 
 **Pros**: More structured, better error handling
 **Cons**:
+
 - Requires modifying all calling code
 - Couples logging to implementation
 - Not transparent to Claude Code
@@ -269,11 +282,13 @@ Current recommendation combines best of all approaches.
 ### Log File Size
 
 Estimated growth:
+
 - Average entry: ~500 bytes (prompt + response)
 - 100 calls/day: ~50 KB/day
 - 30 days: ~1.5 MB/month
 
 **Rotation strategy** (if needed):
+
 ```bash
 # Manual rotation
 mv .claude/logs/cli-tools.jsonl .claude/logs/cli-tools-$(date +%Y%m).jsonl
@@ -282,6 +297,7 @@ mv .claude/logs/cli-tools.jsonl .claude/logs/cli-tools-$(date +%Y%m).jsonl
 ### Hook Timeout
 
 Set to 5 seconds (same as other hooks):
+
 - Allows for file I/O on slow systems
 - Prevents hanging on filesystem issues
 - Non-blocking (Claude continues even if hook fails)
@@ -291,17 +307,20 @@ Set to 5 seconds (same as other hooks):
 ### 1. Sensitive Data in Prompts
 
 Prompts may contain:
+
 - API keys (if user accidentally includes)
 - User data
 - Proprietary code
 
 **Mitigation**:
+
 ```python
 # .gitignore
 .claude/logs/
 ```
 
 **Alternative**: Redact sensitive patterns before logging:
+
 ```python
 def redact_sensitive(text: str) -> str:
     # Redact potential API keys
@@ -312,6 +331,7 @@ def redact_sensitive(text: str) -> str:
 ### 2. Log File Permissions
 
 Ensure logs are user-readable only:
+
 ```python
 LOG_FILE.chmod(0o600)  # rw------- (user only)
 ```
@@ -321,6 +341,7 @@ LOG_FILE.chmod(0o600)  # rw------- (user only)
 ### 1. Structured Logging with Metadata
 
 Add context:
+
 ```json
 {
   "timestamp": "...",
@@ -338,6 +359,7 @@ Add context:
 ### 2. Log Viewer UI
 
 Simple Python script:
+
 ```bash
 python .claude/tools/view-logs.py
 # → Opens TUI for browsing logs
@@ -346,6 +368,7 @@ python .claude/tools/view-logs.py
 ### 3. Metrics Dashboard
 
 Track:
+
 - Calls per day
 - Average response time
 - Success rate
@@ -354,6 +377,7 @@ Track:
 ### 4. Export to SQLite
 
 For complex queries:
+
 ```bash
 python .claude/tools/export-logs-to-db.py
 # → Creates cli-tools.db
@@ -372,6 +396,7 @@ python .claude/tools/export-logs-to-db.py
 ## Testing Plan
 
 ### Unit Tests
+
 ```python
 def test_extract_codex_prompt():
     cmd = 'codex exec --model gpt-5.3-codex --sandbox read-only --full-auto "test prompt"'
@@ -381,6 +406,7 @@ def test_extract_codex_prompt():
 ```
 
 ### Integration Tests
+
 1. Make actual codex/gemini call
 2. Check log file exists
 3. Verify entry matches expected format
@@ -391,6 +417,7 @@ def test_extract_codex_prompt():
 **Recommended implementation**: PostToolUse hook with JSONL logging
 
 **Key benefits**:
+
 - ✅ Zero code changes to call sites
 - ✅ Transparent to agents
 - ✅ Simple file-based storage
@@ -399,6 +426,7 @@ def test_extract_codex_prompt():
 - ✅ Leverages existing hook infrastructure
 
 **Next steps**:
+
 1. Implement hook (30 minutes)
 2. Test with real calls (15 minutes)
 3. Add to documentation (15 minutes)

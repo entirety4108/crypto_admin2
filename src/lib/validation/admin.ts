@@ -3,7 +3,12 @@ import { z } from 'zod'
 export const accountSchema = z.object({
   name: z.string().trim().min(1, 'アカウント名は必須です').max(255),
   memo: z.string().trim().max(1000).optional(),
-  iconUrl: z.string().trim().url('有効なURLを入力してください').optional().or(z.literal('')),
+  iconUrl: z
+    .string()
+    .trim()
+    .url('有効なURLを入力してください')
+    .optional()
+    .or(z.literal('')),
   isLocked: z.boolean().default(false),
 })
 
@@ -26,7 +31,12 @@ export const cryptSchema = z.object({
   symbol: z.string().trim().min(1, 'シンボルは必須です').max(20),
   projectName: z.string().trim().max(255).optional().or(z.literal('')),
   coingeckoId: z.string().trim().max(100).optional().or(z.literal('')),
-  iconUrl: z.string().trim().url('有効なURLを入力してください').optional().or(z.literal('')),
+  iconUrl: z
+    .string()
+    .trim()
+    .url('有効なURLを入力してください')
+    .optional()
+    .or(z.literal('')),
   color: z
     .string()
     .trim()

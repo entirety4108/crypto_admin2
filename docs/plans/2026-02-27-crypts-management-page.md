@@ -13,6 +13,7 @@
 ## Task 1: Add `cryptSchema` Zod validation
 
 **Files:**
+
 - Modify: `src/lib/validation/admin.ts`
 
 **Step 1: Write the failing test**
@@ -58,7 +59,10 @@ describe('cryptSchema', () => {
   })
 
   it('invalid URL fails', () => {
-    const result = cryptSchema.safeParse({ symbol: 'BTC', iconUrl: 'not-a-url' })
+    const result = cryptSchema.safeParse({
+      symbol: 'BTC',
+      iconUrl: 'not-a-url',
+    })
     expect(result.success).toBe(false)
   })
 
@@ -87,7 +91,12 @@ export const cryptSchema = z.object({
   symbol: z.string().trim().min(1, 'シンボルは必須です').max(20),
   projectName: z.string().trim().max(255).optional().or(z.literal('')),
   coingeckoId: z.string().trim().max(100).optional().or(z.literal('')),
-  iconUrl: z.string().trim().url('有効なURLを入力してください').optional().or(z.literal('')),
+  iconUrl: z
+    .string()
+    .trim()
+    .url('有効なURLを入力してください')
+    .optional()
+    .or(z.literal('')),
   color: z
     .string()
     .trim()
@@ -118,6 +127,7 @@ git commit -m "feat: add cryptSchema Zod validation for crypts master"
 ## Task 2: Create Server Actions for crypts
 
 **Files:**
+
 - Create: `src/app/[locale]/(dashboard)/crypts/actions.ts`
 
 **Context:** The `crypts` table uses RLS: read is allowed for all, but **writes require service_role**. We must NOT use the standard `createClient()` from `@/lib/supabase/server` for writes. Instead, create a raw Supabase client with `SUPABASE_SERVICE_ROLE_KEY`.
@@ -251,6 +261,7 @@ git commit -m "feat: add Server Actions for crypts master management"
 ## Task 3: Create the Crypts page
 
 **Files:**
+
 - Create: `src/app/[locale]/(dashboard)/crypts/page.tsx`
 
 **Step 1: Create page.tsx**
@@ -522,6 +533,7 @@ git commit -m "feat: add Crypts management page (list + add + edit + is_active t
 ## Task 4: Add Crypts to navigation
 
 **Files:**
+
 - Modify: `src/components/dashboard-nav.tsx`
 
 **Step 1: Add CoinsIcon and Crypts link**
@@ -552,7 +564,11 @@ Full updated `links` array:
 ```typescript
 const links = [
   { href: `/${locale}/portfolio`, label: 'Portfolio', Icon: BarChart2Icon },
-  { href: `/${locale}/transactions`, label: 'Transactions', Icon: ArrowLeftRightIcon },
+  {
+    href: `/${locale}/transactions`,
+    label: 'Transactions',
+    Icon: ArrowLeftRightIcon,
+  },
   { href: `/${locale}/accounts`, label: 'Accounts', Icon: Building2Icon },
   { href: `/${locale}/categories`, label: 'Categories', Icon: TagIcon },
   { href: `/${locale}/crypts`, label: 'Crypts', Icon: CoinsIcon },
@@ -611,6 +627,7 @@ pnpm dev
 ```
 
 Verify:
+
 - Navigate to `http://localhost:3000/ja/crypts`
 - The "Crypts" link appears in the sidebar
 - The page shows existing crypts from the database

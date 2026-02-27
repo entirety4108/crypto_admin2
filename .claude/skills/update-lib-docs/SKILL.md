@@ -48,13 +48,13 @@ After updating docs, verify:
 
 ## Key Items to Check
 
-| Category | What to Look For |
-|----------|------------------|
-| Security | CVEs, security patches |
-| Breaking | API changes, removed features |
-| Deprecated | APIs marked for removal |
-| Performance | Optimization improvements |
-| New Features | Useful additions |
+| Category     | What to Look For              |
+| ------------ | ----------------------------- |
+| Security     | CVEs, security patches        |
+| Breaking     | API changes, removed features |
+| Deprecated   | APIs marked for removal       |
+| Performance  | Optimization improvements     |
+| New Features | Useful additions              |
 
 ## Update Format
 

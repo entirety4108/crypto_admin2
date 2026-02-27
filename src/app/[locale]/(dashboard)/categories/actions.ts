@@ -24,7 +24,8 @@ export async function createCategoryAction(formData: FormData) {
     color: formData.get('color') || '',
   })
 
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getUserId()
   const { error } = await supabase.from('crypt_categories').insert({
@@ -47,7 +48,8 @@ export async function updateCategoryAction(formData: FormData) {
   })
 
   if (!id) throw new Error('更新対象IDが不正です')
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase } = await getUserId()
   const { error } = await supabase
@@ -70,7 +72,10 @@ export async function deleteCategoryAction(formData: FormData) {
   if (!id) throw new Error('削除対象IDが不正です')
 
   const { supabase } = await getUserId()
-  const { error } = await supabase.from('crypt_categories').delete().eq('id', id)
+  const { error } = await supabase
+    .from('crypt_categories')
+    .delete()
+    .eq('id', id)
 
   if (error) throw new Error(error.message)
 
@@ -84,7 +89,8 @@ export async function createUserCryptCategoryAction(formData: FormData) {
     categoryId: formData.get('category_id'),
   })
 
-  if (!parsed.success) throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
+  if (!parsed.success)
+    throw new Error(parsed.error.issues[0]?.message ?? '入力値が不正です')
 
   const { supabase, userId } = await getUserId()
   const { error } = await supabase.from('user_crypt_categories').insert({
@@ -105,7 +111,10 @@ export async function deleteUserCryptCategoryAction(formData: FormData) {
   if (!id) throw new Error('削除対象IDが不正です')
 
   const { supabase } = await getUserId()
-  const { error } = await supabase.from('user_crypt_categories').delete().eq('id', id)
+  const { error } = await supabase
+    .from('user_crypt_categories')
+    .delete()
+    .eq('id', id)
 
   if (error) throw new Error(error.message)
 

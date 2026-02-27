@@ -20,15 +20,15 @@ Record/update project design and implementation decisions in `.claude/docs/DESIG
 
 ## Section Mapping
 
-| Topic | Section |
-|-------|---------|
-| Goals, purpose | Overview |
-| Structure, components | Architecture |
-| Design patterns | Implementation Plan > Patterns |
-| Library choices | Implementation Plan > Libraries |
-| Decision rationale | Implementation Plan > Key Decisions |
-| Future work | TODO |
-| Unresolved issues | Open Questions |
+| Topic                 | Section                             |
+| --------------------- | ----------------------------------- |
+| Goals, purpose        | Overview                            |
+| Structure, components | Architecture                        |
+| Design patterns       | Implementation Plan > Patterns      |
+| Library choices       | Implementation Plan > Libraries     |
+| Decision rationale    | Implementation Plan > Key Decisions |
+| Future work           | TODO                                |
+| Unresolved issues     | Open Questions                      |
 
 ## Update Format
 
@@ -52,6 +52,7 @@ Always add to Changelog:
 ## Changelog
 
 ### {Date}
+
 - {Brief description of what was recorded}
 ```
 

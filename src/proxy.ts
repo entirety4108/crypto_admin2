@@ -23,7 +23,11 @@ export default async function proxy(request: NextRequest) {
         return request.cookies.getAll()
       },
       setAll(
-        cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>,
+        cookiesToSet: Array<{
+          name: string
+          value: string
+          options?: Record<string, unknown>
+        }>
       ) {
         for (const { name, value, options } of cookiesToSet) {
           request.cookies.set(name, value)

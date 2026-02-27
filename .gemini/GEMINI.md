@@ -26,12 +26,12 @@ You provide **research and analysis** that benefits from your 1M token context.
 
 ## NOT Your Job (Others Do These)
 
-| Task | Who Does It |
-|------|-------------|
-| Design decisions | Codex |
-| Debugging | Codex |
+| Task                | Who Does It |
+| ------------------- | ----------- |
+| Design decisions    | Codex       |
+| Debugging           | Codex       |
 | Code implementation | Claude Code |
-| File editing | Claude Code |
+| File editing        | Claude Code |
 
 ## Shared Context Access
 
@@ -61,18 +61,23 @@ Structure your response for Claude Code to use:
 
 ```markdown
 ## Summary
+
 {Key findings in 3-5 bullet points}
 
 ## Details
+
 {Comprehensive analysis}
 
 ## Recommendations
+
 {Actionable suggestions}
 
 ## Sources
+
 {Links to documentation, examples}
 
 ## For Codex Review (if design-related)
+
 {Questions or decisions that need Codex's deep analysis}
 ```
 

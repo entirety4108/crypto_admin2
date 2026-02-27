@@ -15,6 +15,7 @@ Task tool (subagent_type: "general-purpose") → Codex CLI (workspace-write) →
 ```
 
 **具体的なサブエージェントプロンプト例:**
+
 ```
 Call Codex CLI to implement:
 codex exec --model gpt-5.3-codex --sandbox workspace-write --full-auto "
@@ -45,18 +46,18 @@ Return: files modified, key changes, any issues.
 
 ## 技術スタック
 
-| カテゴリ | 採用技術 |
-|----------|----------|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript |
-| UI | Tailwind CSS + shadcn/ui |
-| Data Fetching | TanStack Query v5 |
-| Client State | Zustand |
-| Backend | Supabase (PostgreSQL, Auth, Edge Functions) |
-| i18n | next-intl（日本語・英語） |
-| Testing | Vitest + React Testing Library |
-| Package Manager | pnpm |
-| Deployment | Vercel |
+| カテゴリ        | 採用技術                                    |
+| --------------- | ------------------------------------------- |
+| Framework       | Next.js 15 (App Router)                     |
+| Language        | TypeScript                                  |
+| UI              | Tailwind CSS + shadcn/ui                    |
+| Data Fetching   | TanStack Query v5                           |
+| Client State    | Zustand                                     |
+| Backend         | Supabase (PostgreSQL, Auth, Edge Functions) |
+| i18n            | next-intl（日本語・英語）                   |
+| Testing         | Vitest + React Testing Library              |
+| Package Manager | pnpm                                        |
+| Deployment      | Vercel                                      |
 
 ## 実装スコープ（コア機能）
 
@@ -127,37 +128,37 @@ crypto_admin2/
 
 ### マスターテーブル（読み取り専用）
 
-| テーブル | 用途 |
-|---------|------|
+| テーブル | 用途                                                             |
+| -------- | ---------------------------------------------------------------- |
 | `crypts` | 暗号通貨マスター（symbol, project_name, icon_url, coingecko_id） |
-| `prices` | 価格履歴（crypt_id, exec_at, unit_yen） |
+| `prices` | 価格履歴（crypt_id, exec_at, unit_yen）                          |
 
 ### ユーザーテーブル（RLS 適用）
 
-| テーブル | 用途 |
-|---------|------|
-| `accounts` | 取引所・ウォレット（name） |
-| `crypt_categories` | ユーザー定義カテゴリ |
-| `user_crypt_categories` | 通貨 ↔ カテゴリ（多対多） |
+| テーブル                | 用途                       |
+| ----------------------- | -------------------------- |
+| `accounts`              | 取引所・ウォレット（name） |
+| `crypt_categories`      | ユーザー定義カテゴリ       |
+| `user_crypt_categories` | 通貨 ↔ カテゴリ（多対多）  |
 
 ### トランザクションテーブル
 
-| テーブル | 用途 |
-|---------|------|
-| `purchases` | 入金・スワップ買い・エアドロップ（type: d/s/a） |
-| `sells` | 売却・スワップ売り（type: s/w） |
-| `transfers` | アカウント間振替 |
-| `commissions` | 手数料 |
-| `swaps` | スワップペア（purchases ↔ sells を 1:1 紐付け） |
+| テーブル      | 用途                                            |
+| ------------- | ----------------------------------------------- |
+| `purchases`   | 入金・スワップ買い・エアドロップ（type: d/s/a） |
+| `sells`       | 売却・スワップ売り（type: s/w）                 |
+| `transfers`   | アカウント間振替                                |
+| `commissions` | 手数料                                          |
+| `swaps`       | スワップペア（purchases ↔ sells を 1:1 紐付け） |
 
 ### キャッシュ・集計テーブル
 
-| テーブル | 用途 |
-|---------|------|
-| `cost_basis_history` | WAC 計算履歴・監査証跡 |
-| `daily_balances` | 日次残高スナップショット |
-| `dm_crypts` | 通貨別年次集計 |
-| `dm_accounts` | アカウント別年次集計 |
+| テーブル             | 用途                     |
+| -------------------- | ------------------------ |
+| `cost_basis_history` | WAC 計算履歴・監査証跡   |
+| `daily_balances`     | 日次残高スナップショット |
+| `dm_crypts`          | 通貨別年次集計           |
+| `dm_accounts`        | アカウント別年次集計     |
 
 ## 会計ロジック（WAC 方式）
 
@@ -253,16 +254,17 @@ SUPABASE_SERVICE_ROLE_KEY=xxx
 
 価格取得・集計バッチはすでに稼働中。フロントエンドから直接呼び出さない。
 
-| Function | スケジュール | 用途 |
-|----------|-------------|------|
-| `update-prices` | 1時間毎 | CoinGecko から価格取得 |
-| `calculate-indicators` | 日次 | テクニカル指標計算 |
-| `update-daily-balances` | 日次 | 日次残高スナップショット |
-| `update-data-marts` | 日次 | 年次集計テーブル更新 |
+| Function                | スケジュール | 用途                     |
+| ----------------------- | ------------ | ------------------------ |
+| `update-prices`         | 1時間毎      | CoinGecko から価格取得   |
+| `calculate-indicators`  | 日次         | テクニカル指標計算       |
+| `update-daily-balances` | 日次         | 日次残高スナップショット |
+| `update-data-marts`     | 日次         | 年次集計テーブル更新     |
 
 ## 実装フェーズ
 
 ### Phase 1: プロジェクト初期化
+
 - [ ] Next.js 15 セットアップ（App Router + TypeScript）
 - [ ] Tailwind CSS + shadcn/ui 導入
 - [ ] Supabase クライアント設定
@@ -271,17 +273,20 @@ SUPABASE_SERVICE_ROLE_KEY=xxx
 - [ ] Vitest 設定
 
 ### Phase 2: 認証
+
 - [ ] ログイン画面
 - [ ] 新規登録画面
 - [ ] パスワードリセット
 - [ ] ミドルウェア（認証ガード）
 
 ### Phase 3: ポートフォリオ
+
 - [ ] ポートフォリオダッシュボード（残高・損益サマリー）
 - [ ] アカウント別ビュー
 - [ ] カテゴリ別ビュー
 
 ### Phase 4: 取引管理
+
 - [ ] 取引一覧
 - [ ] 入金フォーム
 - [ ] 売却フォーム
@@ -290,10 +295,12 @@ SUPABASE_SERVICE_ROLE_KEY=xxx
 - [ ] エアドロップフォーム
 
 ### Phase 5: 管理
+
 - [ ] アカウント管理
 - [ ] カテゴリ管理
 
 ### Phase 6: 分析
+
 - [ ] 損益レポート（確定・評価損益）
 - [ ] 残高履歴グラフ
 

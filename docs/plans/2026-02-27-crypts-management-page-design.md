@@ -41,13 +41,13 @@ Note: Server Actions run only on the server side, so using service_role key is s
 
 ## Form Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `symbol` | ✓ | Ticker symbol (e.g., BTC, ETH) - unique |
-| `project_name` | - | Full project name (e.g., Bitcoin) |
-| `coingecko_id` | - | CoinGecko ID (used by price update batch) |
-| `icon_url` | - | Icon image URL |
-| `color` | - | Color code (color picker, default #6366f1) |
+| Field          | Required | Description                                |
+| -------------- | -------- | ------------------------------------------ |
+| `symbol`       | ✓        | Ticker symbol (e.g., BTC, ETH) - unique    |
+| `project_name` | -        | Full project name (e.g., Bitcoin)          |
+| `coingecko_id` | -        | CoinGecko ID (used by price update batch)  |
+| `icon_url`     | -        | Icon image URL                             |
+| `color`        | -        | Color code (color picker, default #6366f1) |
 
 ## UI Design
 

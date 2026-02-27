@@ -47,7 +47,7 @@ Research $ARGUMENTS and create documentation in `.claude/docs/libraries/`.
 
 ## Documentation Template
 
-```markdown
+````markdown
 # {Library Name}
 
 ## Overview
@@ -66,6 +66,7 @@ Research $ARGUMENTS and create documentation in `.claude/docs/libraries/`.
 ```python
 {Code example}
 ```
+````
 
 ## Constraints & Notes
 
@@ -97,4 +98,7 @@ Research $ARGUMENTS and create documentation in `.claude/docs/libraries/`.
 
 - [Official Docs]({url})
 - [GitHub]({url})
+
+```
+
 ```

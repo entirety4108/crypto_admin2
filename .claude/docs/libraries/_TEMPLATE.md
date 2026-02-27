@@ -4,13 +4,13 @@
 
 ## 基本情報
 
-| 項目 | 内容 |
-|------|------|
-| バージョン | x.x.x |
-| ライセンス | MIT / Apache 2.0 / etc. |
-| 公式ドキュメント | https://... |
-| GitHub | https://github.com/... |
-| PyPI | https://pypi.org/project/... |
+| 項目             | 内容                         |
+| ---------------- | ---------------------------- |
+| バージョン       | x.x.x                        |
+| ライセンス       | MIT / Apache 2.0 / etc.      |
+| 公式ドキュメント | https://...                  |
+| GitHub           | https://github.com/...       |
+| PyPI             | https://pypi.org/project/... |
 
 ## インストール
 
@@ -77,6 +77,7 @@ result = Something.do_thing()
 **原因**: ...
 
 **解決策**:
+
 ```python
 # 修正例
 ```

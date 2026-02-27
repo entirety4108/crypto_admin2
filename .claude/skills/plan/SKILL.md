@@ -43,9 +43,11 @@ Break into small steps:
 ## Implementation Plan: {Title}
 
 ### Purpose
+
 {1-2 sentences}
 
 ### Scope
+
 - New files: {list}
 - Modified files: {list}
 - Dependencies: {list}
@@ -53,17 +55,21 @@ Break into small steps:
 ### Implementation Steps
 
 #### Step 1: {Title}
+
 - [ ] {Specific task}
 - [ ] {Specific task}
-**Verification**: {Completion criteria for this step}
+      **Verification**: {Completion criteria for this step}
 
 #### Step 2: {Title}
+
 ...
 
 ### Risks & Considerations
+
 - {Potential issues and mitigations}
 
 ### Open Questions
+
 - {Items to clarify before implementation}
 ```
 

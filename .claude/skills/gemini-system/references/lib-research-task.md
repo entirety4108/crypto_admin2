@@ -82,6 +82,7 @@ gemini -p "Research 'pydantic' v2 with focus on:
 ## Workflow
 
 1. **Run Gemini research** (background)
+
    ```bash
    gemini -p "Research: {library}" 2>/dev/null
    ```
@@ -95,6 +96,7 @@ gemini -p "Research 'pydantic' v2 with focus on:
 ## Output Location
 
 All library documentation should be saved to:
+
 ```
 .claude/docs/libraries/{library-name}.md
 ```
@@ -110,6 +112,7 @@ All library documentation should be saved to:
 ## Integration with Codex
 
 After Gemini researches a library:
+
 1. Documentation is saved to `.claude/docs/libraries/`
 2. Codex can reference this when reviewing code or refactoring
 3. Ensures library constraints are respected across all agents

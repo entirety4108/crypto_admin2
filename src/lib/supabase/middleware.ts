@@ -8,7 +8,9 @@ export async function updateSession(request: NextRequest) {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !anonKey) {
-    throw new Error('Missing Supabase environment variables for middleware client')
+    throw new Error(
+      'Missing Supabase environment variables for middleware client'
+    )
   }
 
   const supabase = createServerClient(url, anonKey, {
@@ -17,7 +19,11 @@ export async function updateSession(request: NextRequest) {
         return request.cookies.getAll()
       },
       setAll(
-        cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>,
+        cookiesToSet: Array<{
+          name: string
+          value: string
+          options?: Record<string, unknown>
+        }>
       ) {
         for (const { name, value, options } of cookiesToSet) {
           request.cookies.set(name, value)

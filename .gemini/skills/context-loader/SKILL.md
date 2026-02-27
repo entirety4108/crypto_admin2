@@ -31,6 +31,7 @@ Read relevant files from `.claude/rules/`:
 ### Step 2: Load Design Documentation
 
 Read `.claude/docs/DESIGN.md` for:
+
 - Architecture decisions
 - Implementation patterns
 - Library choices and constraints
@@ -38,6 +39,7 @@ Read `.claude/docs/DESIGN.md` for:
 ### Step 3: Check Library Documentation
 
 If the task involves specific libraries, read relevant files from:
+
 ```
 .claude/docs/libraries/
 ```
@@ -45,6 +47,7 @@ If the task involves specific libraries, read relevant files from:
 ### Step 4: Execute Research Task
 
 With the loaded context, execute the requested research/analysis following:
+
 - Project coding principles
 - Existing design decisions
 - Library constraints
@@ -65,6 +68,7 @@ With the loaded context, execute the requested research/analysis following:
 ## Output Guidelines
 
 When providing research results:
+
 - Structure with clear headings
 - Include code examples when relevant
 - Cite sources from web search

@@ -36,7 +36,10 @@ describe('cryptSchema', () => {
   })
 
   it('invalid URL fails', () => {
-    const result = cryptSchema.safeParse({ symbol: 'BTC', iconUrl: 'not-a-url' })
+    const result = cryptSchema.safeParse({
+      symbol: 'BTC',
+      iconUrl: 'not-a-url',
+    })
     expect(result.success).toBe(false)
   })
 

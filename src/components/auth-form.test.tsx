@@ -31,8 +31,12 @@ describe('AuthForm', () => {
 
     render(<AuthForm mode="login" locale="ja" />)
 
-    fireEvent.change(screen.getByLabelText('email'), { target: { value: 'demo@example.com' } })
-    fireEvent.change(screen.getByLabelText('password'), { target: { value: 'password123' } })
+    fireEvent.change(screen.getByLabelText('email'), {
+      target: { value: 'demo@example.com' },
+    })
+    fireEvent.change(screen.getByLabelText('password'), {
+      target: { value: 'password123' },
+    })
     fireEvent.click(screen.getByRole('button', { name: 'ログイン' }))
 
     await waitFor(() => {
@@ -49,7 +53,9 @@ describe('AuthForm', () => {
 
     render(<AuthForm mode="reset" locale="ja" />)
 
-    fireEvent.change(screen.getByLabelText('email'), { target: { value: 'demo@example.com' } })
+    fireEvent.change(screen.getByLabelText('email'), {
+      target: { value: 'demo@example.com' },
+    })
     fireEvent.click(screen.getByRole('button', { name: 'リセットメール送信' }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent('failed')

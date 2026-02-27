@@ -21,22 +21,22 @@ metadata:
 
 **サブエージェント経由を推奨。** メインオーケストレーターのコンテキストを節約するため。
 
-| 状況 | 方法 |
-|------|------|
-| 詳細な設計相談 | サブエージェント経由（推奨） |
-| デバッグ分析 | サブエージェント経由（推奨） |
-| 短い質問 (1-2文回答) | 直接呼び出しOK |
+| 状況                 | 方法                         |
+| -------------------- | ---------------------------- |
+| 詳細な設計相談       | サブエージェント経由（推奨） |
+| デバッグ分析         | サブエージェント経由（推奨） |
+| 短い質問 (1-2文回答) | 直接呼び出しOK               |
 
 ## When to Consult (MUST)
 
-| Situation | Trigger Examples |
-|-----------|------------------|
-| **Design decisions** | 「どう設計？」「アーキテクチャ」 / "How to design?" |
-| **Debugging** | 「なぜ動かない？」「エラー」 / "Debug" "Error" |
-| **Trade-off analysis** | 「どちらがいい？」「比較して」 / "Compare" "Which?" |
-| **Complex implementation** | 「実装方法」「どう作る？」 / "How to implement?" |
-| **Refactoring** | 「リファクタ」「シンプルに」 / "Refactor" "Simplify" |
-| **Code review** | 「レビューして」「確認して」 / "Review" "Check" |
+| Situation                  | Trigger Examples                                     |
+| -------------------------- | ---------------------------------------------------- |
+| **Design decisions**       | 「どう設計？」「アーキテクチャ」 / "How to design?"  |
+| **Debugging**              | 「なぜ動かない？」「エラー」 / "Debug" "Error"       |
+| **Trade-off analysis**     | 「どちらがいい？」「比較して」 / "Compare" "Which?"  |
+| **Complex implementation** | 「実装方法」「どう作る？」 / "How to implement?"     |
+| **Refactoring**            | 「リファクタ」「シンプルに」 / "Refactor" "Simplify" |
+| **Code review**            | 「レビューして」「確認して」 / "Review" "Check"      |
 
 ## When NOT to Consult
 
@@ -81,9 +81,9 @@ codex exec --model gpt-5.3-codex --sandbox read-only --full-auto "Brief question
 
 ### Sandbox Modes
 
-| Mode | Use Case |
-|------|----------|
-| `read-only` | Analysis, review, debugging advice |
+| Mode              | Use Case                           |
+| ----------------- | ---------------------------------- |
+| `read-only`       | Analysis, review, debugging advice |
 | `workspace-write` | Implementation, refactoring, fixes |
 
 ## Language Protocol
@@ -136,11 +136,11 @@ See: `references/refactoring-task.md`
 
 ## Integration with Gemini
 
-| Task | Use |
-|------|-----|
-| Need research first | Gemini → then Codex |
-| Design decision | Codex directly |
-| Library comparison | Gemini research → Codex decision |
+| Task                | Use                              |
+| ------------------- | -------------------------------- |
+| Need research first | Gemini → then Codex              |
+| Design decision     | Codex directly                   |
+| Library comparison  | Gemini research → Codex decision |
 
 ## Why Codex?
 

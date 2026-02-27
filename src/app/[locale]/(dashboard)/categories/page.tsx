@@ -32,7 +32,9 @@ function getCategoryColor(color: string | null): string {
 }
 
 function getCryptLabel(crypt: Crypt): string {
-  return crypt.project_name ? `${crypt.symbol} (${crypt.project_name})` : crypt.symbol
+  return crypt.project_name
+    ? `${crypt.symbol} (${crypt.project_name})`
+    : crypt.symbol
 }
 
 function buildCategoryMappingsMap(mappings: Mapping[]): Map<string, Mapping[]> {
@@ -48,7 +50,11 @@ function buildCryptMap(crypts: Crypt[]): Map<string, Crypt> {
   return new Map(crypts.map((crypt) => [crypt.id, crypt]))
 }
 
-export default async function CategoriesPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function CategoriesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
   const { locale } = await params
   const supabase = await createClient()
 
@@ -61,8 +67,15 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
   }
 
   const [categoriesRes, cryptsRes, mappingsRes] = await Promise.all([
-    supabase.from('crypt_categories').select('id,name,color').order('created_at', { ascending: false }),
-    supabase.from('crypts').select('id,symbol,project_name').eq('is_active', true).order('symbol'),
+    supabase
+      .from('crypt_categories')
+      .select('id,name,color')
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('crypts')
+      .select('id,symbol,project_name')
+      .eq('is_active', true)
+      .order('symbol'),
     supabase
       .from('user_crypt_categories')
       .select('id,crypt_id,category_id')
@@ -70,8 +83,13 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
   ])
 
   if (categoriesRes.error || cryptsRes.error || mappingsRes.error) {
-    const message = categoriesRes.error?.message || cryptsRes.error?.message || mappingsRes.error?.message
-    return <AlertMessage variant="error" message={message ?? '取得に失敗しました'} />
+    const message =
+      categoriesRes.error?.message ||
+      cryptsRes.error?.message ||
+      mappingsRes.error?.message
+    return (
+      <AlertMessage variant="error" message={message ?? '取得に失敗しました'} />
+    )
   }
 
   const categories = (categoriesRes.data as Category[] | null) ?? []
@@ -86,7 +104,9 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
     <section className="space-y-6">
       <div className="border-b border-slate-200 pb-4">
         <h2 className="text-2xl font-bold text-slate-900">Categories</h2>
-        <p className="mt-1 text-sm text-slate-500">カテゴリ管理と通貨の紐づけを設定できます。</p>
+        <p className="mt-1 text-sm text-slate-500">
+          カテゴリ管理と通貨の紐づけを設定できます。
+        </p>
       </div>
 
       {/* Add Category Form */}
@@ -99,7 +119,12 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </summary>
         <form
@@ -107,17 +132,21 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
           className="flex flex-wrap items-end gap-3 border-t bg-slate-50 p-5"
         >
           <input type="hidden" name="locale" value={locale} />
-          <div className="flex-1 min-w-[180px]">
-            <label className="mb-1 block text-xs font-medium text-slate-600">カテゴリ名</label>
+          <div className="min-w-[180px] flex-1">
+            <label className="mb-1 block text-xs font-medium text-slate-600">
+              カテゴリ名
+            </label>
             <input
               name="name"
               placeholder="例: DeFi, Layer1"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
               required
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-medium text-slate-600">カラー</label>
+            <label className="mb-1 block text-xs font-medium text-slate-600">
+              カラー
+            </label>
             <input
               name="color"
               type="color"
@@ -141,11 +170,20 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
         ) : (
           categories.map((category) => {
             const categoryMappings = categoryMappingsMap.get(category.id) ?? []
-            const linkedCryptIds = new Set(categoryMappings.map((m) => m.crypt_id))
+            const linkedCryptIds = new Set(
+              categoryMappings.map((m) => m.crypt_id)
+            )
             const linkedCrypts = categoryMappings
-              .map((m) => ({ mappingId: m.id, crypt: cryptMap.get(m.crypt_id) }))
-              .filter((item): item is { mappingId: string; crypt: Crypt } => Boolean(item.crypt))
-            const availableCrypts = crypts.filter((c) => !allLinkedCryptIds.has(c.id))
+              .map((m) => ({
+                mappingId: m.id,
+                crypt: cryptMap.get(m.crypt_id),
+              }))
+              .filter((item): item is { mappingId: string; crypt: Crypt } =>
+                Boolean(item.crypt)
+              )
+            const availableCrypts = crypts.filter(
+              (c) => !allLinkedCryptIds.has(c.id)
+            )
             const categoryColor = getCategoryColor(category.color)
 
             return (
@@ -162,7 +200,9 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                   {/* Name + badge */}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-base font-semibold text-slate-900">{category.name}</span>
+                      <span className="text-base font-semibold text-slate-900">
+                        {category.name}
+                      </span>
                       <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
                         {categoryMappings.length}通貨
                       </span>
@@ -175,7 +215,12 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
 
@@ -187,17 +232,21 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                   >
                     <input type="hidden" name="locale" value={locale} />
                     <input type="hidden" name="id" value={category.id} />
-                    <div className="flex-1 min-w-[180px]">
-                      <label className="mb-1 block text-xs font-medium text-slate-600">カテゴリ名</label>
+                    <div className="min-w-[180px] flex-1">
+                      <label className="mb-1 block text-xs font-medium text-slate-600">
+                        カテゴリ名
+                      </label>
                       <input
                         name="name"
                         defaultValue={category.name}
-                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
                         required
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-slate-600">カラー</label>
+                      <label className="mb-1 block text-xs font-medium text-slate-600">
+                        カラー
+                      </label>
                       <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2 py-1">
                         <input
                           name="color"
@@ -205,7 +254,9 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                           defaultValue={categoryColor}
                           className="h-8 w-12 cursor-pointer rounded border-0 bg-transparent p-0"
                         />
-                        <span className="text-xs text-slate-500">{categoryColor}</span>
+                        <span className="text-xs text-slate-500">
+                          {categoryColor}
+                        </span>
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -228,12 +279,18 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                   {/* Linked Crypts Section */}
                   <div className="border-t p-5">
                     <div className="mb-3">
-                      <h3 className="text-sm font-semibold text-slate-800">紐づけ通貨</h3>
-                      <p className="text-xs text-slate-500">カテゴリに含める通貨を管理します。</p>
+                      <h3 className="text-sm font-semibold text-slate-800">
+                        紐づけ通貨
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        カテゴリに含める通貨を管理します。
+                      </p>
                     </div>
 
                     {linkedCrypts.length === 0 ? (
-                      <p className="mb-4 text-sm italic text-slate-400">通貨が紐づけられていません</p>
+                      <p className="mb-4 text-sm text-slate-400 italic">
+                        通貨が紐づけられていません
+                      </p>
                     ) : (
                       <div className="mb-4 flex flex-wrap gap-2">
                         {linkedCrypts.map(({ mappingId, crypt }) => (
@@ -242,9 +299,20 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                             className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700"
                           >
                             <span>{crypt.symbol}</span>
-                            <form action={deleteUserCryptCategoryAction} className="contents">
-                              <input type="hidden" name="locale" value={locale} />
-                              <input type="hidden" name="id" value={mappingId} />
+                            <form
+                              action={deleteUserCryptCategoryAction}
+                              className="contents"
+                            >
+                              <input
+                                type="hidden"
+                                name="locale"
+                                value={locale}
+                              />
+                              <input
+                                type="hidden"
+                                name="id"
+                                value={mappingId}
+                              />
                               <button
                                 type="submit"
                                 className="ml-0.5 text-slate-400 transition-colors hover:text-red-500"
@@ -259,17 +327,26 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
                     )}
 
                     {/* Add Crypt Form */}
-                    <form action={createUserCryptCategoryAction} className="flex gap-2">
+                    <form
+                      action={createUserCryptCategoryAction}
+                      className="flex gap-2"
+                    >
                       <input type="hidden" name="locale" value={locale} />
-                      <input type="hidden" name="category_id" value={category.id} />
+                      <input
+                        type="hidden"
+                        name="category_id"
+                        value={category.id}
+                      />
                       <select
                         name="crypt_id"
-                        className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 focus:outline-none"
                         required
                         disabled={availableCrypts.length === 0}
                       >
                         <option value="">
-                          {availableCrypts.length === 0 ? 'すべて紐づけ済み' : '通貨を選択'}
+                          {availableCrypts.length === 0
+                            ? 'すべて紐づけ済み'
+                            : '通貨を選択'}
                         </option>
                         {availableCrypts.map((crypt) => (
                           <option key={crypt.id} value={crypt.id}>

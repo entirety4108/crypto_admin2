@@ -139,15 +139,18 @@ Add to CLAUDE.md:
 ## Current Project: {feature}
 
 ### Context
+
 - Goal: {1-2 sentences}
 - Key files: {list}
 - Dependencies: {list}
 
 ### Decisions
+
 - {Decision 1}: {rationale}
 - {Decision 2}: {rationale}
 
 ### Notes
+
 - {Important constraints or considerations}
 ```
 
@@ -205,22 +208,28 @@ Present final plan to user (in Japanese):
 ## プロジェクト計画: {feature}
 
 ### 調査結果 (Gemini)
+
 {Key findings - 3-5 bullet points}
 
 ### 設計方針 (Codex レビュー済み)
+
 {Approach with refinements}
 
 ### タスクリスト ({N}個)
+
 {Task list}
 
 ### リスクと注意点
+
 {From Codex analysis}
 
 ### 次のステップ
+
 1. この計画で進めてよろしいですか？
 2. 実装完了後、別セッションでレビューを行います
 
 ---
+
 この計画で進めてよろしいですか？
 ```
 
@@ -228,11 +237,11 @@ Present final plan to user (in Japanese):
 
 ## Output Files
 
-| File | Purpose |
-|------|---------|
-| `.claude/docs/research/{feature}.md` | Gemini research output |
-| `CLAUDE.md` | Updated with project context |
-| Task list (internal) | Progress tracking |
+| File                                 | Purpose                      |
+| ------------------------------------ | ---------------------------- |
+| `.claude/docs/research/{feature}.md` | Gemini research output       |
+| `CLAUDE.md`                          | Updated with project context |
+| Task list (internal)                 | Progress tracking            |
 
 ---
 

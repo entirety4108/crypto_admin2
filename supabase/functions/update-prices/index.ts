@@ -21,7 +21,8 @@ serve(async (req) => {
     // CORSヘッダー設定
     const corsHeaders = {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Headers':
+        'authorization, x-client-info, apikey, content-type',
     }
 
     // OPTIONSリクエストの処理
@@ -51,7 +52,7 @@ serve(async (req) => {
         JSON.stringify({ message: 'No active cryptocurrencies found' }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 200
+          status: 200,
         }
       )
     }
@@ -83,7 +84,9 @@ serve(async (req) => {
     }
 
     const prices: Record<string, CoinGeckoPrice> = await response.json()
-    console.log(`✅ Fetched prices for ${Object.keys(prices).length} cryptocurrencies`)
+    console.log(
+      `✅ Fetched prices for ${Object.keys(prices).length} cryptocurrencies`
+    )
 
     // pricesテーブルにUPSERT
     const today = new Date().toISOString().split('T')[0]
@@ -92,28 +95,31 @@ serve(async (req) => {
 
     for (const crypt of crypts as Crypt[]) {
       if (!crypt.coingecko_id || !prices[crypt.coingecko_id]) {
-        console.warn(`⚠️  No price data for ${crypt.symbol} (${crypt.coingecko_id})`)
+        console.warn(
+          `⚠️  No price data for ${crypt.symbol} (${crypt.coingecko_id})`
+        )
         errorCount++
         continue
       }
 
       const unitYen = prices[crypt.coingecko_id].jpy
 
-      const { error: upsertError } = await supabase
-        .from('prices')
-        .upsert(
-          {
-            crypt_id: crypt.id,
-            exec_at: today,
-            unit_yen: unitYen,
-          },
-          {
-            onConflict: 'crypt_id,exec_at',
-          }
-        )
+      const { error: upsertError } = await supabase.from('prices').upsert(
+        {
+          crypt_id: crypt.id,
+          exec_at: today,
+          unit_yen: unitYen,
+        },
+        {
+          onConflict: 'crypt_id,exec_at',
+        }
+      )
 
       if (upsertError) {
-        console.error(`❌ Failed to upsert price for ${crypt.symbol}:`, upsertError.message)
+        console.error(
+          `❌ Failed to upsert price for ${crypt.symbol}:`,
+          upsertError.message
+        )
         errorCount++
       } else {
         console.log(`💾 Updated ${crypt.symbol}: ¥${unitYen.toLocaleString()}`)
@@ -144,7 +150,8 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error occurred',
+        error:
+          error instanceof Error ? error.message : 'Unknown error occurred',
       }),
       {
         headers: { 'Content-Type': 'application/json' },
