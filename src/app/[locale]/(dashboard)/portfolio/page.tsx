@@ -1,5 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import {
+  buildPortfolioHoldings,
+  type PortfolioHolding as Holding,
+  type PortfolioPurchaseRow,
+  type PortfolioSellRow,
+  type PortfolioTransferRow,
+} from '@/lib/accounting/portfolio'
+import {
   Table,
   TableBody,
   TableCell,
@@ -11,7 +18,7 @@ import {
 
 type Account = { id: string; name: string }
 type Crypt = { id: string; symbol: string }
-type Sell = { exec_at: string; profit: string | null }
+type Sell = PortfolioSellRow & { profit: string | null }
 type PriceRow = { crypt_id: string; exec_at: string; unit_yen: string }
 type Category = { id: string; name: string }
 type UserCryptCategory = { crypt_id: string; category_id: string }
@@ -22,16 +29,6 @@ type DailyBalance = {
   amount: string
   unit_price: string | null
   valuation: string | null
-}
-
-type Holding = {
-  accountId: string
-  cryptId: string
-  qty: number
-  cost: number
-  price: number
-  valuation: number
-  unrealizedPnl: number
 }
 
 const fmtJPY = new Intl.NumberFormat('ja-JP', { maximumFractionDigits: 0 })
@@ -111,7 +108,9 @@ export default async function PortfolioPage() {
   const [
     accountsRes,
     cryptsRes,
+    purchasesRes,
     sellsRes,
+    transfersRes,
     pricesRes,
     categoriesRes,
     userCryptCategoriesRes,
@@ -124,8 +123,15 @@ export default async function PortfolioPage() {
       .eq('is_active', true)
       .order('symbol'),
     supabase
+      .from('purchases')
+      .select('id,exec_at,account_id,crypt_id,amount,purchase_yen'),
+    supabase
       .from('sells')
-      .select('exec_at,profit')
+      .select('id,exec_at,account_id,crypt_id,amount,profit')
+      .order('exec_at', { ascending: false }),
+    supabase
+      .from('transfers')
+      .select('id,exec_at,from_account_id,to_account_id,crypt_id,amount')
       .order('exec_at', { ascending: false }),
     supabase
       .from('prices')
@@ -142,7 +148,9 @@ export default async function PortfolioPage() {
   const error =
     accountsRes.error ||
     cryptsRes.error ||
+    purchasesRes.error ||
     sellsRes.error ||
+    transfersRes.error ||
     pricesRes.error ||
     categoriesRes.error ||
     userCryptCategoriesRes.error ||
@@ -152,7 +160,9 @@ export default async function PortfolioPage() {
 
   const accounts = (accountsRes.data ?? []) as Account[]
   const crypts = (cryptsRes.data ?? []) as Crypt[]
+  const purchases = (purchasesRes.data ?? []) as PortfolioPurchaseRow[]
   const sells = (sellsRes.data ?? []) as Sell[]
+  const transfers = (transfersRes.data ?? []) as PortfolioTransferRow[]
   const prices = (pricesRes.data ?? []) as PriceRow[]
   const categories = (categoriesRes.data ?? []) as Category[]
   const userCryptCategories = (userCryptCategoriesRes.data ??
@@ -162,37 +172,18 @@ export default async function PortfolioPage() {
   const accountMap = new Map(accounts.map((a) => [a.id, a.name]))
   const cryptMap = new Map(crypts.map((c) => [c.id, c.symbol]))
 
-  const latestByAccountCrypt = new Map<string, DailyBalance>()
-  for (let i = dailyBalances.length - 1; i >= 0; i -= 1) {
-    const row = dailyBalances[i]
-    if (!row) continue
-    const key = `${row.account_id}:${row.crypt_id}`
-    if (!latestByAccountCrypt.has(key)) latestByAccountCrypt.set(key, row)
-  }
-
   const latestPriceByCrypt = new Map<string, number>()
   for (const row of prices) {
     if (!latestPriceByCrypt.has(row.crypt_id))
       latestPriceByCrypt.set(row.crypt_id, n(row.unit_yen))
   }
 
-  const holdings: Holding[] = []
-  for (const row of latestByAccountCrypt.values()) {
-    const qty = n(row.amount)
-    if (qty <= 0) continue
-    const valuation = n(row.valuation)
-    const price = n(row.unit_price) || latestPriceByCrypt.get(row.crypt_id) || 0
-    const cost = Math.max(valuation - qty * price, 0)
-    holdings.push({
-      accountId: row.account_id,
-      cryptId: row.crypt_id,
-      qty,
-      cost,
-      price,
-      valuation,
-      unrealizedPnl: valuation - cost,
-    })
-  }
+  const holdings = buildPortfolioHoldings({
+    purchases,
+    sells,
+    transfers,
+    latestPriceByCrypt,
+  })
 
   const realizedPnlTotal = sum(sells.map((row) => n(row.profit)))
   const valuationTotal = sum(holdings.map((h) => h.valuation))

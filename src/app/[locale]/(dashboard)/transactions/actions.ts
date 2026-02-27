@@ -26,6 +26,7 @@ function parseLocale(formData: FormData) {
 
 function revalidate(locale: string) {
   revalidatePath(`/${locale}/transactions`)
+  revalidatePath(`/${locale}/portfolio`)
 }
 
 export async function createCommissionAction(formData: FormData) {

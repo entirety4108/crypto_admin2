@@ -107,6 +107,7 @@ Crypto Admin is a comprehensive cryptocurrency portfolio management system desig
 | **User-defined categories via crypt_categories + user_crypt_categories**                           | Flexible tagging and grouping of crypts, many-to-many relationships                                                           | Store category on crypts table (one-to-many only), no categories | 2026-02-09 |
 | **Airdrop repository uses purchases.type='a' and maps airdrop_profit to purchase_yen/deposit_yen** | Align cost basis with taxable airdrop value; UI mirrors deposit patterns with type chips (1=エアドロップ, 2=ステーキング報酬) | Separate airdrop table or custom fields only                     | 2026-02-09 |
 | **Swap repository creates linked sells(type='w') + purchases(type='s') and stores pair in swaps**  | Keeps swap atomic, supports list filtering/sorting via typed joined view model (`SwapWithDetails`)                            | Single-table raw swap records only in UI                         | 2026-02-13 |
+| **Portfolio realtime display computes holdings from transaction ledger; `daily_balances` is chart-only cache** | Ensure deposit/sell/transfer/swap changes appear immediately in Portfolio while preserving lightweight historical chart reads | Trigger full `update-daily-balances` on every transaction      | 2026-02-27 |
 
 ---
 
@@ -396,6 +397,7 @@ SELECT pg_advisory_unlock(hashtext(account_id::text));
 
 | Date       | Changes                                                                                                            |
 | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| 2026-02-27 | Portfolio now computes KPI/holdings from purchases+sells+transfers ledger for immediate reflection after transaction changes; daily_balances remains chart cache |
 | 2026-02-13 | Added Swap feature: domain models, repository, provider, form/list screens with profit calculation and filtering   |
 | 2026-02-09 | Added Airdrop feature: repository, provider, form/list screens with type filtering (エアドロップ/ステーキング報酬) |
 | 2026-02-09 | Added category management feature: domain models, repository, providers, and 3 screens (list/form/detail)          |
